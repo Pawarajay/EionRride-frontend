@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1758458775518",
+    "timestamp": "2025-09-21T12:46:15.518Z",
+    "pickup": "mumbai",
+    "destination": "thane",
+    "rentalPlan": "",
+    "vehicleType": "mini",
+    "pickupDate": "2025-09-21",
+    "pickupTime": "19:15",
+    "returnDate": "",
+    "returnTime": "",
+    "passengers": 1,
+    "fare": 1500,
+    "notes": "",
+    "customerName": "Samay shadani",
+    "customerPhone": "8446802344",
+    "customerEmail": "",
+    "couponCode": "",
+    "discount": 0,
+    "bookingFor": "self",
+    "otherPersonName": "",
+    "otherPersonPhone": "",
+    "paymentMethod": "online",
+    "serviceType": "flexi",
+    "tripType": "oneway"
+  }
+]
