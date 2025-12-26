@@ -130,7 +130,3 @@ export default function Navbar() {
   )
 }
 
-
-// className="inline-block px-8 py-3 text-lg font-semibold rounded-lg shadow-md 
-//               hover:shadow-lg hover:scale-105 
-//              transition-all duration-300 ease-in-out"
