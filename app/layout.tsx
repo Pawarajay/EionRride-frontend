@@ -57,6 +57,7 @@
 
 
 //testing 26-12-2025
+
 import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
@@ -74,14 +75,56 @@ export const metadata: Metadata = {
   generator: "vasifytech.com",
 }
 
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode
+// }) {
+//   return (
+//     <html lang="en">
+//       <head>
+//         <Script
+//           async
+//           src="https://www.googletagmanager.com/gtag/js?id=AW-17631308778"
+//           strategy="afterInteractive"
+//         />
+//         <Script id="google-analytics" strategy="afterInteractive">
+//           {`
+//             window.dataLayer = window.dataLayer || [];
+//             function gtag(){dataLayer.push(arguments);}
+//             gtag('js', new Date());
+//             gtag('config', 'AW-17631308778');
+//           `}
+//         </Script>
+//         <style>{`
+//           html {
+//             font-family: ${GeistSans.style.fontFamily};
+//             --font-sans: ${GeistSans.variable};
+//             --font-mono: ${GeistMono.variable};
+//           }
+//         `}</style>
+//       </head>
+//       <body className="min-h-screen bg-white text-left antialiased">
+//         <Suspense fallback={<div>Loading...</div>}>
+//           <AuthProvider>
+//             {children}
+//             <WhatsAppButton />
+//           </AuthProvider>
+//         </Suspense>
+//         <Analytics />
+//       </body>
+//     </html>
+//   )
+// }
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
+    <html lang="en" className={GeistSans.className}>
+       <head>
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17631308778"
@@ -115,4 +158,3 @@ export default function RootLayout({
     </html>
   )
 }
-
