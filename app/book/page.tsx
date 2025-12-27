@@ -2263,6 +2263,7 @@ export default function BookingPage() {
   );
 }
 
+
 function loadGoogleMapsScript() {
   return new Promise<void>((resolve, reject) => {
     if (typeof window === "undefined")
