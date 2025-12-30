@@ -1035,26 +1035,24 @@ export default function BookingInterface() {
             <Navigation className="w-4 h-4 text-blue-500" />
           </button> */}
 
-         <button
+<button
   type="button"
   onClick={handleOpenMapPicker}
-  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-7 h-7 rounded-full border border-cyan-400 bg-white shadow-sm hover:bg-cyan-50 transition-colors cursor-pointer"
+  className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-full border border-cyan-400 bg-white shadow-sm hover:bg-cyan-50 transition-colors cursor-pointer"
   title="Use current location on map"
 >
-  <span className="relative flex items-center justify-center w-3 h-3">
+  <span className="relative flex items-center justify-center w-2.5 h-2.5">
     {/* outer ring */}
-    <span className="absolute inset-0 rounded-full border-[1.5px] border-cyan-500" />
+    <span className="absolute inset-0 rounded-full border border-cyan-500" />
     {/* inner dot */}
-    <span className="w-1 h-1 rounded-full bg-cyan-500" />
+    <span className="w-0.5 h-0.5 rounded-full bg-cyan-500" />
     {/* four ticks */}
-    <span className="absolute -top-[2px] w-[1.5px] h-[2px] bg-cyan-500" />
-    <span className="absolute -bottom-[2px] w-[1.5px] h-[2px] bg-cyan-500" />
-    <span className="absolute -left-[2px] h-[1.5px] w-[2px] bg-cyan-500" />
-    <span className="absolute -right-[2px] h-[1.5px] w-[2px] bg-cyan-500" />
+    <span className="absolute -top-[1.5px] w-px h-[2px] bg-cyan-500" />
+    <span className="absolute -bottom-[1.5px] w-px h-[2px] bg-cyan-500" />
+    <span className="absolute -left-[1.5px] h-px w-[2px] bg-cyan-500" />
+    <span className="absolute -right-[1.5px] h-px w-[2px] bg-cyan-500" />
   </span>
 </button>
-
-
 
           {pickupLat && pickupLng && (
             <div className="text-[11px] text-gray-500 mt-1">
