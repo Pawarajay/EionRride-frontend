@@ -156,10 +156,10 @@
 //   const BACKEND_URL =
 //     process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
-//   // Filter vehicles based on service type
-//   const vehicleTypes = bookingData.serviceType === "flexi" 
-//     ? allVehicleTypes.filter(v => v.id !== "innova")
-//     : allVehicleTypes;
+//   const vehicleTypes =
+//     bookingData.serviceType === "flexi"
+//       ? allVehicleTypes.filter((v) => v.id !== "innova")
+//       : allVehicleTypes;
 
 //   const getServiceDisplayName = (): string => {
 //     switch (bookingData.serviceType) {
@@ -190,12 +190,7 @@
 //     const pickup = bookingData.pickup?.trim();
 //     const destination = bookingData.destination?.trim();
 
-//     if (
-//       !pickup ||
-//       !destination ||
-//       !bookingData.pickupLat ||
-//       !bookingData.dropLat
-//     ) {
+//     if (!pickup || !destination || !bookingData.pickupLat || !bookingData.dropLat) {
 //       setDistanceError("Invalid booking data. Please go back to home page.");
 //       return;
 //     }
@@ -254,14 +249,8 @@
 //               "pickupLng",
 //               bookingData.pickupLng?.toString() || ""
 //             );
-//             urlParams.append(
-//               "dropLat",
-//               bookingData.dropLat?.toString() || ""
-//             );
-//             urlParams.append(
-//               "dropLng",
-//               bookingData.dropLng?.toString() || ""
-//             );
+//             urlParams.append("dropLat", bookingData.dropLat?.toString() || "");
+//             urlParams.append("dropLng", bookingData.dropLng?.toString() || "");
 //             urlParams.append("tripType", bookingData.tripType || "oneway");
 //             urlParams.append("pickupDate", bookingData.pickupDate || "");
 //             urlParams.append("pickupTime", bookingData.pickupTime || "");
@@ -348,8 +337,7 @@
 
 //   useEffect(() => {
 //     computeDistanceAndPrices();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
+//   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   useEffect(() => {
 //     if (bookingData.serviceType === "rental" && bookingData.rentalPlan) {
@@ -357,8 +345,7 @@
 //       setActualDistance(rentalPlanKmsMap[bookingData.rentalPlan] || 40);
 //       computeDistanceAndPrices(bookingData.rentalPlan);
 //     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [bookingData.rentalPlan, bookingData.serviceType]);
+//   }, [bookingData.rentalPlan, bookingData.serviceType]); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   const formatDistance = (km: number | null) =>
 //     km === null ? "—" : `${km.toFixed(2)} km`;
@@ -469,43 +456,30 @@
 
 //         <Card className="p-4 sm:p-6 mb-4">
 //           <CardContent className="p-0">
-//             <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
+//             <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600 text-left">
 //               Pick your locations
 //             </h3>
 
 //             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-2">
-//                   Pickup location *
+//                 <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+//                   Pickup location
 //                 </label>
-//                 <div className="flex gap-2">
-//                   <Input
-//                     ref={pickupRef}
-//                     type="text"
-//                     placeholder="Enter pickup location"
-//                     value={bookingData.pickup}
-//                     onChange={(e) =>
-//                       updateBookingData("pickup", e.target.value)
-//                     }
-//                     required
-//                     className="flex-1"
-//                   />
-//                 </div>
+//                 <Input
+//                   value={bookingData.pickup}
+//                   readOnly
+//                   className="flex-1 bg-gray-50 cursor-not-allowed"
+//                 />
 //               </div>
 
 //               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-2">
-//                   Drop location *
+//                 <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+//                   Drop location
 //                 </label>
 //                 <Input
-//                   ref={dropRef}
-//                   type="text"
-//                   placeholder="Enter drop location"
 //                   value={bookingData.destination}
-//                   onChange={(e) =>
-//                     updateBookingData("destination", e.target.value)
-//                   }
-//                   required
+//                   readOnly
+//                   className="bg-gray-50 cursor-not-allowed"
 //                 />
 //               </div>
 //             </div>
@@ -514,33 +488,18 @@
 //               <button
 //                 type="button"
 //                 onClick={() => {
-//                   setBookingData((prev) => ({
-//                     ...prev,
-//                     pickup: "",
-//                     destination: "",
-//                     pickupLat: null,
-//                     pickupLng: null,
-//                     dropLat: null,
-//                     dropLng: null,
-//                   }));
-//                   setLockedDistanceKm(null);
-//                   setLockedTripHours(null);
-//                   setLockedTripMinutes(null);
-//                   setIsLocked(false);
-//                   setDistanceKm(null);
-//                   setTotalTripHours(null);
-//                   setTotalTripMinutes(null);
+//                   router.push("/");
 //                 }}
 //                 className="text-xs font-medium text-blue-600 hover:text-blue-800"
 //               >
-//                 Clear all
+//                 Change locations
 //               </button>
 //             </div>
 
 //             {bookingData.serviceType === "outstation" && (
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 //                 <div>
-//                   <label className="block text-sm font-medium text-gray-700 mb-2">
+//                   <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
 //                     Pickup date & time *
 //                   </label>
 //                   <input
@@ -562,7 +521,7 @@
 //                 </div>
 //                 {bookingData.tripType === "roundtrip" && (
 //                   <div>
-//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                     <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
 //                       Return date & time *
 //                     </label>
 //                     <input
@@ -588,8 +547,8 @@
 
 //             {bookingData.serviceType === "outstation" &&
 //               bookingData.tripType === "roundtrip" && (
-//                 <div className="mt-2 text-sm text-blue-800">
-//                   Estimated total time:{" "}
+//                 <div className="mt-2 text-sm text-blue-800 text-left">
+//                   Estimated total time{" "}
 //                   <b>
 //                     {formatTimeHours(lockedTripHours || totalTripHours)} (
 //                     {formatTimeMins(lockedTripMinutes || totalTripMinutes)})
@@ -601,533 +560,689 @@
 //               !bookingData.destination ||
 //               !bookingData.pickupLat ||
 //               !bookingData.dropLat) && (
-//               <div className="text-xs text-red-500 mt-2">
-//                 Please select locations from the suggestions. Both pickup and
-//                 drop must be valid.
+//               <div className="text-xs text-red-500 mt-2 text-left">
+//                 Please go back and select valid pickup and drop locations on the
+//                 booking screen.
 //               </div>
 //             )}
 //           </CardContent>
 //         </Card>
 
-//         {!showBookingForm ? (
-//           <div className="space-y-6">
-//             <div className="mb-6">
-//               <div className="mt-4">
-//                 <div className="inline-flex items-center bg-blue-100 rounded-full px-4 py-2">
-//                   <span className="text-blue-700 font-medium text-sm sm:text-base">
-//                     Service: {getServiceDisplayName()}
-//                   </span>
-//                 </div>
-//               </div>
-//             </div>
-            
-//             <div className="text-sm text-gray-600">
-//               <div className="flex flex-wrap gap-2 items-center">
-//                 <span className="font-medium">Distance:</span>{" "}
-//                 <span>
-//                   {calculatingDistance
-//                     ? "Calculating..."
-//                     : isLocked
-//                     ? formatDistance(lockedDistanceKm)
-//                     : formatDistance(distanceKm)}
-//                 </span>
-//                 <span className="text-gray-400">•</span>
-//                 <span className="font-medium">Duration:</span>{" "}
-//                 <span>
-//                   {calculatingDistance
-//                     ? "Calculating..."
-//                     : isLocked
-//                     ? formatTimeMins(lockedTripMinutes)
-//                     : formatTimeMins(totalTripMinutes)}
-//                 </span>
-//               </div>
-//               {distanceError && (
-//                 <div className="text-xs text-red-600 mt-1">
-//                   {distanceError}
-//                 </div>
-//               )}
-//             </div>
-            
-//             <div className="text-xl sm:text-2xl font-bold text-blue-900">
-//               {pricesLoading[bookingData.vehicleType]
-//                 ? "Calculating..."
-//                 : prices[bookingData.vehicleType]
-//                 ? prices[bookingData.vehicleType]
-//                 : ""}
-//             </div>
-
-//             {bookingData.vehicleType &&
-//               fareBreakdowns[bookingData.vehicleType] && (
-//                 <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-300 max-w-full sm:max-w-md">
-//                   <h4 className="font-semibold text-blue-900 mb-3 border-b border-blue-300 pb-2 text-sm sm:text-base">
-//                     Fare calculation breakdown
-//                   </h4>
-//                   <ul className="text-xs sm:text-sm space-y-1 list-disc list-inside text-blue-900 font-medium">
-//                     {Object.entries(
-//                       fareBreakdowns[bookingData.vehicleType]
-//                     ).map(([key, value]) => (
-//                       <li key={key}>
-//                         <span className="capitalize">
-//                           {key.replace(/([a-z])([A-Z])/g, "$1 $2")}
-//                         </span>
-//                         :{" "}
-//                         <span className="font-normal">
-//                           {typeof value === "number"
-//                             ? value.toLocaleString("en-IN", {
-//                                 maximumFractionDigits: 2,
-//                               })
-//                             : String(value)}
-//                         </span>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//               )}
-
-//             {bookingData.serviceType === "rental" &&
-//               bookingData.rentalPlan && (
-//                 <Card className="p-4 sm:p-6 mt-6">
-//                   <CardContent className="p-0">
-//                     <h3 className="text-base sm:text-lg font-semibold mb-3 text-blue-600">
-//                       Actual usage (for extra charges)
-//                     </h3>
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Actual hours used
-//                         </label>
-//                         <Input
-//                           type="number"
-//                           min={rentalPlanHoursMap[bookingData.rentalPlan] || 4}
-//                           value={actualHours}
-//                           onChange={(e) =>
-//                             setActualHours(Number(e.target.value))
-//                           }
-//                         />
-//                       </div>
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Actual distance (km)
-//                         </label>
-//                         <Input
-//                           type="number"
-//                           min={rentalPlanKmsMap[bookingData.rentalPlan] || 40}
-//                           value={actualDistance}
-//                           onChange={(e) =>
-//                             setActualDistance(Number(e.target.value))
-//                           }
-//                         />
-//                       </div>
+//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
+//           <div className="lg:col-span-2 space-y-6">
+//             {!showBookingForm ? (
+//               <div className="space-y-6">
+//                 <div className="mb-6">
+//                   <div className="mt-4">
+//                     <div className="inline-flex items-center bg-blue-100 rounded-full px-4 py-2">
+//                       <span className="text-blue-700 font-medium text-sm sm:text-base">
+//                         Service: {getServiceDisplayName()}
+//                       </span>
 //                     </div>
+//                   </div>
+//                 </div>
+
+//                 <div className="text-sm text-gray-600">
+//                   <div className="flex flex-wrap gap-2 items-center">
+//                     <span className="font-medium">Distance:</span>{" "}
+//                     <span>
+//                       {calculatingDistance
+//                         ? "Calculating..."
+//                         : isLocked
+//                         ? formatDistance(lockedDistanceKm)
+//                         : formatDistance(distanceKm)}
+//                     </span>
+//                     <span className="text-gray-400">•</span>
+//                     <span className="font-medium">Duration:</span>{" "}
+//                     <span>
+//                       {calculatingDistance
+//                         ? "Calculating..."
+//                         : isLocked
+//                         ? formatTimeMins(lockedTripMinutes)
+//                         : formatTimeMins(totalTripMinutes)}
+//                     </span>
+//                   </div>
+//                   {distanceError && (
+//                     <div className="text-xs text-red-600 mt-1">
+//                       {distanceError}
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div className="text-xl sm:text-2xl font-bold text-blue-900">
+//                   {pricesLoading[bookingData.vehicleType]
+//                     ? "Calculating..."
+//                     : prices[bookingData.vehicleType]
+//                     ? prices[bookingData.vehicleType]
+//                     : ""}
+//                 </div>
+
+//                 {bookingData.serviceType === "rental" &&
+//                   bookingData.rentalPlan && (
+//                     <Card className="p-4 sm:p-6 mt-6">
+//                       <CardContent className="p-0">
+//                         <h3 className="text-base sm:text-lg font-semibold mb-3 text-blue-600">
+//                           Actual usage (for extra charges)
+//                         </h3>
+//                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+//                           <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-2">
+//                               Actual hours used
+//                             </label>
+//                             <Input
+//                               type="number"
+//                               min={
+//                                 rentalPlanHoursMap[bookingData.rentalPlan] || 4
+//                               }
+//                               value={actualHours}
+//                               onChange={(e) =>
+//                                 setActualHours(Number(e.target.value))
+//                               }
+//                             />
+//                           </div>
+//                           <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-2">
+//                               Actual distance (km)
+//                             </label>
+//                             <Input
+//                               type="number"
+//                               min={
+//                                 rentalPlanKmsMap[bookingData.rentalPlan] || 40
+//                               }
+//                               value={actualDistance}
+//                               onChange={(e) =>
+//                                 setActualDistance(Number(e.target.value))
+//                               }
+//                             />
+//                           </div>
+//                         </div>
+//                       </CardContent>
+//                     </Card>
+//                   )}
+
+//                 {bookingData.serviceType === "rental" && (
+//                   <Card className="p-4 sm:p-6">
+//                     <CardContent className="p-0">
+//                       <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
+//                         Rental plans
+//                       </h3>
+//                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+//                         {rentalPlans.map((plan) => (
+//                           <button
+//                             key={plan.id}
+//                             onClick={() =>
+//                               updateBookingData("rentalPlan", plan.id)
+//                             }
+//                             className={`p-3 sm:p-4 rounded-lg border-2 text-center transition-all ${
+//                               bookingData.rentalPlan === plan.id
+//                                 ? "border-blue-500 bg-blue-50 text-blue-700"
+//                                 : "border-gray-200 hover:border-blue-300"
+//                             }`}
+//                           >
+//                             <div className="font-semibold text-base sm:text-lg">
+//                               {plan.name}
+//                             </div>
+//                             <div className="text-xs sm:text-sm text-gray-600">
+//                               {plan.duration}
+//                             </div>
+//                           </button>
+//                         ))}
+//                       </div>
+//                     </CardContent>
+//                   </Card>
+//                 )}
+
+//                 <Card className="p-4 sm:p-6">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
+//                       Vehicle type
+//                     </h3>
+//                     {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+//                       {vehicleTypes.map((vehicle) => {
+//                         const breakdown = fareBreakdowns[vehicle.id];
+
+//                         return (
+//                           <button
+//                             key={vehicle.id}
+//                             onClick={() => {
+//                               setBookingData((prev) => ({
+//                                 ...prev,
+//                                 vehicleType: vehicle.id,
+//                                 fare: breakdown?.totalBeforeGST || 0,
+//                                 gstAmount: breakdown?.gstAmount || 0,
+//                                 totalFare:
+//                                   breakdown?.totalFareWithGST || 0,
+//                               }));
+//                             }}
+//                             className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left ${
+//                               bookingData.vehicleType === vehicle.id
+//                                 ? "border-blue-500 bg-blue-50"
+//                                 : "border-gray-200 hover:border-blue-300"
+//                             }`}
+//                           >
+//                             <div className="flex items-start justify-between gap-2">
+//                               <div className="flex items-center gap-3">
+//                                 <img
+//                                   src={vehicle.image || "/placeholder.svg"}
+//                                   alt={vehicle.name}
+//                                   className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
+//                                 />
+//                                 <div>
+//                                   <div className="font-semibold text-sm sm:text-base">
+//                                     {vehicle.name}
+//                                   </div>
+//                                   <div className="text-xs sm:text-sm text-gray-600">
+//                                     {vehicle.capacity}
+//                                   </div>
+//                                   <div className="text-xs text-gray-500 line-clamp-2">
+//                                     {vehicle.features?.join(" • ")}
+//                                   </div>
+//                                 </div>
+//                               </div>
+
+//                               <button
+//                                 type="button"
+//                                 aria-label={`View details for ${vehicle.name}`}
+//                                 onClick={(e) => {
+//                                   e.stopPropagation();
+//                                   setInfoVehicleId(vehicle.id);
+//                                 }}
+//                                 className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
+//                               >
+//                                 i
+//                               </button>
+//                             </div>
+
+//                             <div className="mt-3">
+//                               {pricesLoading[vehicle.id] ? (
+//                                 <div className="text-sm text-gray-600">
+//                                   Calculating...
+//                                 </div>
+//                               ) : prices[vehicle.id] ? (
+//                                 <div className="text-base sm:text-lg font-semibold">
+//                                   {prices[vehicle.id]}
+//                                 </div>
+//                               ) : (
+//                                 <div className="text-base sm:text-lg font-semibold">
+//                                   {new Intl.NumberFormat("en-IN", {
+//                                     style: "currency",
+//                                     currency: "INR",
+//                                   }).format(vehicle.basePrice)}
+//                                 </div>
+//                               )}
+//                               <div className="text-xs text-gray-500 mt-1">
+//                                 {isLocked
+//                                   ? `${lockedDistanceKm?.toFixed(2)} km`
+//                                   : distanceKm
+//                                   ? `${distanceKm.toFixed(2)} km`
+//                                   : "Price based on route"}
+//                               </div>
+//                             </div>
+//                           </button>
+//                         );
+//                       })}
+//                     </div> */}
+//                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+//   {vehicleTypes.map((vehicle) => {
+//     const breakdown = fareBreakdowns[vehicle.id];
+
+//     const onSelectVehicle = () => {
+//       setBookingData((prev) => ({
+//         ...prev,
+//         vehicleType: vehicle.id,
+//         fare: breakdown?.totalBeforeGST || 0,
+//         gstAmount: breakdown?.gstAmount || 0,
+//         totalFare: breakdown?.totalFareWithGST || 0,
+//       }));
+//     };
+
+//     return (
+//       <div
+//         key={vehicle.id}
+//         role="button"
+//         tabIndex={0}
+//         onClick={onSelectVehicle}
+//         onKeyDown={(e) => {
+//           if (e.key === "Enter" || e.key === " ") {
+//             e.preventDefault();
+//             onSelectVehicle();
+//           }
+//         }}
+//         className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left cursor-pointer ${
+//           bookingData.vehicleType === vehicle.id
+//             ? "border-blue-500 bg-blue-50"
+//             : "border-gray-200 hover:border-blue-300"
+//         }`}
+//       >
+//         <div className="flex items-start justify-between gap-2">
+//           <div className="flex items-center gap-3">
+//             <img
+//               src={vehicle.image || "/placeholder.svg"}
+//               alt={vehicle.name}
+//               className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
+//             />
+//             <div>
+//               <div className="font-semibold text-sm sm:text-base">
+//                 {vehicle.name}
+//               </div>
+//               <div className="text-xs sm:text-sm text-gray-600">
+//                 {vehicle.capacity}
+//               </div>
+//               <div className="text-xs text-gray-500 line-clamp-2">
+//                 {vehicle.features?.join(" • ")}
+//               </div>
+//             </div>
+//           </div>
+
+//           <button
+//             type="button"
+//             aria-label={`View details for ${vehicle.name}`}
+//             onClick={(e) => {
+//               e.stopPropagation();
+//               setInfoVehicleId(vehicle.id);
+//             }}
+//             className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
+//           >
+//             i
+//           </button>
+//         </div>
+
+//         <div className="mt-3">
+//           {pricesLoading[vehicle.id] ? (
+//             <div className="text-sm text-gray-600">Calculating...</div>
+//           ) : prices[vehicle.id] ? (
+//             <div className="text-base sm:text-lg font-semibold">
+//               {prices[vehicle.id]}
+//             </div>
+//           ) : (
+//             <div className="text-base sm:text-lg font-semibold">
+//               {new Intl.NumberFormat("en-IN", {
+//                 style: "currency",
+//                 currency: "INR",
+//               }).format(vehicle.basePrice)}
+//             </div>
+//           )}
+//           <div className="text-xs text-gray-500 mt-1">
+//             {isLocked
+//               ? `${lockedDistanceKm?.toFixed(2)} km`
+//               : distanceKm
+//               ? `${distanceKm.toFixed(2)} km`
+//               : "Price based on route"}
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   })}
+// </div>
+
 //                   </CardContent>
 //                 </Card>
-//               )}
 
-//             {bookingData.serviceType === "rental" && (
-//               <Card className="p-4 sm:p-6">
-//                 <CardContent className="p-0">
-//                   <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
-//                     Rental plans
-//                   </h3>
-//                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-//                     {rentalPlans.map((plan) => (
+//                 <Button
+//                   onClick={handleBookNow}
+//                   disabled={isBookNowDisabled}
+//                   className="w-full bg-blue-500 text-white hover:bg-blue-600 py-4 text-base sm:text-lg font-semibold"
+//                 >
+//                   Book now
+//                 </Button>
+//               </div>
+//             ) : (
+//               <div ref={bookingFormRef} className="space-y-6">
+//                 {inlineMessage && (
+//                   <div className="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+//                     {inlineMessage}
+//                   </div>
+//                 )}
+
+//                 <div className="mb-6">
+//                   <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+//                     Complete your {getServiceDisplayName()} booking
+//                   </h2>
+//                   <p className="text-sm sm:text-base text-gray-600">
+//                     Fill in the details to confirm your booking.
+//                   </p>
+//                   {isLocked && (
+//                     <div className="mt-4 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-green-800">
+//                       <Lock className="w-4 h-4 mr-2" />
+//                       <span>
+//                         Your fare is locked at {prices[bookingData.vehicleType]}{" "}
+//                         for {formatDistance(lockedDistanceKm)}
+//                       </span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <Card className="p-4 sm:p-6">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-base sm:text-lg font-semibold mb-4">
+//                       Who are you booking for?
+//                     </h3>
+//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 //                       <button
-//                         key={plan.id}
 //                         onClick={() =>
-//                           updateBookingData("rentalPlan", plan.id)
+//                           updateBookingData("bookingFor", "self")
 //                         }
-//                         className={`p-3 sm:p-4 rounded-lg border-2 text-center transition-all ${
-//                           bookingData.rentalPlan === plan.id
+//                         className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+//                           bookingData.bookingFor === "self"
 //                             ? "border-blue-500 bg-blue-50 text-blue-700"
 //                             : "border-gray-200 hover:border-blue-300"
 //                         }`}
 //                       >
-//                         <div className="font-semibold text-base sm:text-lg">
-//                           {plan.name}
-//                         </div>
-//                         <div className="text-xs sm:text-sm text-gray-600">
-//                           {plan.duration}
-//                         </div>
+//                         <UserCheck className="w-5 h-5" />
+//                         <span className="text-sm sm:text-base">
+//                           For myself
+//                         </span>
 //                       </button>
-//                     ))}
-//                   </div>
-//                 </CardContent>
-//               </Card>
-//             )}
-
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
-//                   Vehicle type
-//                 </h3>
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-//                   {vehicleTypes.map((vehicle) => {
-//                     const breakdown = fareBreakdowns[vehicle.id];
-
-//                     return (
 //                       <button
-//                         key={vehicle.id}
-//                         onClick={() => {
-//                           setBookingData((prev) => ({
-//                             ...prev,
-//                             vehicleType: vehicle.id,
-//                             fare: breakdown?.totalBeforeGST || 0,
-//                             gstAmount: breakdown?.gstAmount || 0,
-//                             totalFare: breakdown?.totalFareWithGST || 0,
-//                           }));
-//                         }}
-//                         className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left ${
-//                           bookingData.vehicleType === vehicle.id
-//                             ? "border-blue-500 bg-blue-50"
+//                         onClick={() =>
+//                           updateBookingData("bookingFor", "other")
+//                         }
+//                         className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+//                           bookingData.bookingFor === "other"
+//                             ? "border-blue-500 bg-blue-50 text-blue-700"
 //                             : "border-gray-200 hover:border-blue-300"
 //                         }`}
 //                       >
-//                         <div className="flex items-start justify-between gap-2">
-//                           <div className="flex items-center gap-3">
-//                             <img
-//                               src={vehicle.image || "/placeholder.svg"}
-//                               alt={vehicle.name}
-//                               className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
-//                             />
-//                             <div>
-//                               <div className="font-semibold text-sm sm:text-base">
-//                                 {vehicle.name}
-//                               </div>
-//                               <div className="text-xs sm:text-sm text-gray-600">
-//                                 {vehicle.capacity}
-//                               </div>
-//                               <div className="text-xs text-gray-500 line-clamp-2">
-//                                 {vehicle.features?.join(" • ")}
-//                               </div>
-//                             </div>
-//                           </div>
-
-//                           <button
-//                             type="button"
-//                             aria-label={`View details for ${vehicle.name}`}
-//                             onClick={(e) => {
-//                               e.stopPropagation();
-//                               setInfoVehicleId(vehicle.id);
-//                             }}
-//                             className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
-//                           >
-//                             i
-//                           </button>
-//                         </div>
-
-//                         <div className="mt-3">
-//                           {pricesLoading[vehicle.id] ? (
-//                             <div className="text-sm text-gray-600">
-//                               Calculating...
-//                             </div>
-//                           ) : prices[vehicle.id] ? (
-//                             <div className="text-base sm:text-lg font-semibold">
-//                               {prices[vehicle.id]}
-//                             </div>
-//                           ) : (
-//                             <div className="text-base sm:text-lg font-semibold">
-//                               {new Intl.NumberFormat("en-IN", {
-//                                 style: "currency",
-//                                 currency: "INR",
-//                               }).format(vehicle.basePrice)}
-//                             </div>
-//                           )}
-//                           <div className="text-xs text-gray-500 mt-1">
-//                             {isLocked
-//                               ? `${lockedDistanceKm?.toFixed(2)} km`
-//                               : distanceKm
-//                               ? `${distanceKm.toFixed(2)} km`
-//                               : "Price based on route"}
-//                           </div>
-//                         </div>
+//                         <UserPlus className="w-5 h-5" />
+//                         <span className="text-sm sm:text-base">
+//                           For someone else
+//                         </span>
 //                       </button>
-//                     );
-//                   })}
-//                 </div>
-//               </CardContent>
-//             </Card>
+//                     </div>
+//                   </CardContent>
+//                 </Card>
 
-//             <Button
-//               onClick={handleBookNow}
-//               disabled={isBookNowDisabled}
-//               className="w-full bg-blue-500 text-white hover:bg-blue-600 py-4 text-base sm:text-lg font-semibold"
-//             >
-//               Book now
-//             </Button>
-//           </div>
-//         ) : (
-//           <div ref={bookingFormRef} className="space-y-6">
-//             {inlineMessage && (
-//               <div className="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-//                 {inlineMessage}
+//                 <Card className="p-4 sm:p-6">
+//                   <CardContent className="p-0 space-y-4">
+//                     <h3 className="text-base sm:text-lg font-semibold">
+//                       Your details
+//                     </h3>
+//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-2">
+//                           Full name *
+//                         </label>
+//                         <Input
+//                           type="text"
+//                           placeholder="Enter your full name"
+//                           value={bookingData.customerName}
+//                           onChange={(e) =>
+//                             updateBookingData("customerName", e.target.value)
+//                           }
+//                           required
+//                         />
+//                       </div>
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-2">
+//                           Phone number *
+//                         </label>
+//                         <Input
+//                           type="tel"
+//                           placeholder="Enter 10-digit mobile number"
+//                           value={bookingData.customerPhone}
+//                           onChange={(e) =>
+//                             updateBookingData("customerPhone", e.target.value)
+//                           }
+//                           required
+//                         />
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-2">
+//                         Email address
+//                       </label>
+//                       <Input
+//                         type="email"
+//                         placeholder="your.email@example.com"
+//                         value={bookingData.customerEmail}
+//                         onChange={(e) =>
+//                           updateBookingData("customerEmail", e.target.value)
+//                         }
+//                       />
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 {bookingData.bookingFor === "other" && (
+//                   <Card className="p-4 sm:p-6">
+//                     <CardContent className="p-0 space-y-4">
+//                       <h3 className="text-base sm:text-lg font-semibold">
+//                         Passenger details
+//                       </h3>
+//                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                         <div>
+//                           <label className="block text-sm font-medium text-gray-700 mb-2">
+//                             Passenger name *
+//                           </label>
+//                           <Input
+//                             type="text"
+//                             placeholder="Enter passenger's full name"
+//                             value={bookingData.otherPersonName}
+//                             onChange={(e) =>
+//                               updateBookingData(
+//                                 "otherPersonName",
+//                                 e.target.value
+//                               )
+//                             }
+//                             required
+//                           />
+//                         </div>
+//                         <div>
+//                           <label className="block text-sm font-medium text-gray-700 mb-2">
+//                             Passenger phone *
+//                           </label>
+//                           <Input
+//                             type="tel"
+//                             placeholder="Enter 10-digit mobile number"
+//                             value={bookingData.otherPersonPhone}
+//                             onChange={(e) =>
+//                               updateBookingData(
+//                                 "otherPersonPhone",
+//                                 e.target.value
+//                               )
+//                             }
+//                             required
+//                           />
+//                         </div>
+//                       </div>
+//                     </CardContent>
+//                   </Card>
+//                 )}
+
+//                 <Card className="p-4 sm:p-6">
+//                   <CardContent className="p-0 space-y-4">
+//                     <h3 className="text-base sm:text-lg font-semibold">
+//                       Additional details
+//                     </h3>
+//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-2">
+//                           Number of passengers
+//                         </label>
+//                         <Input
+//                           type="number"
+//                           min={1}
+//                           max={7}
+//                           value={bookingData.passengers}
+//                           onChange={(e) =>
+//                             updateBookingData(
+//                               "passengers",
+//                               Number(e.target.value)
+//                             )
+//                           }
+//                         />
+//                       </div>
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-2">
+//                           Payment method
+//                         </label>
+//                         <select
+//                           className="border rounded px-3 py-2 w-full text-sm"
+//                           value={bookingData.paymentMethod}
+//                           onChange={(e) =>
+//                             updateBookingData(
+//                               "paymentMethod",
+//                               e.target.value
+//                             )
+//                           }
+//                         >
+//                           <option value="online">Online payment</option>
+//                           <option value="cash">Cash to driver</option>
+//                         </select>
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-2">
+//                         Special instructions for driver
+//                       </label>
+//                       <textarea
+//                         className="border rounded px-3 py-2 w-full text-sm min-h-[80px]"
+//                         placeholder="Any special pickup instructions or notes"
+//                         value={bookingData.notes}
+//                         onChange={(e) =>
+//                           updateBookingData("notes", e.target.value)
+//                         }
+//                       />
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 <Card className="p-4 sm:p-6">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-base sm:text-lg font-semibold mb-4">
+//                       Apply coupon code
+//                     </h3>
+//                     <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+//                       <Input
+//                         type="text"
+//                         placeholder="Enter coupon code"
+//                         value={bookingData.couponCode}
+//                         onChange={(e) =>
+//                           updateBookingData("couponCode", e.target.value)
+//                         }
+//                         className="flex-1"
+//                       />
+//                       <Button
+//                         onClick={applyCoupon}
+//                         variant="outline"
+//                         className="bg-transparent w-full sm:w-auto"
+//                       >
+//                         <Tag className="w-4 h-4 mr-2" /> Apply
+//                       </Button>
+//                     </div>
+//                     <div className="mt-2 text-xs sm:text-sm text-gray-600">
+//                       Try: FIRST10, SAVE20, WELCOME15
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+//                   <Button
+//                     onClick={() => setShowBookingForm(false)}
+//                     variant="outline"
+//                     className="flex-1 bg-transparent"
+//                   >
+//                     Back
+//                   </Button>
+//                   <Button
+//                     onClick={handleConfirmBooking}
+//                     className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
+//                     disabled={isSubmitting}
+//                   >
+//                     {isSubmitting ? "Confirming..." : "Confirm booking"}
+//                   </Button>
+//                 </div>
 //               </div>
 //             )}
 
-//             <div className="mb-6">
-//               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-//                 Complete your {getServiceDisplayName()} booking
-//               </h2>
-//               <p className="text-sm sm:text-base text-gray-600">
-//                 Fill in the details to confirm your booking.
-//               </p>
-//               {isLocked && (
-//                 <div className="mt-4 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-green-800">
-//                   <Lock className="w-4 h-4 mr-2" />
-//                   <span>Your fare is locked at {prices[bookingData.vehicleType]} for{" "}
-//                   {formatDistance(lockedDistanceKm)}</span>
-//                 </div>
-//               )}
-//             </div>
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-base sm:text-lg font-semibold mb-4">
-//                   Who are you booking for?
-//                 </h3>
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                   <button
-//                     onClick={() => updateBookingData("bookingFor", "self")}
-//                     className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
-//                       bookingData.bookingFor === "self"
-//                         ? "border-blue-500 bg-blue-50 text-blue-700"
-//                         : "border-gray-200 hover:border-blue-300"
-//                     }`}
-//                   >
-//                     <UserCheck className="w-5 h-5" />
-//                     <span className="text-sm sm:text-base">For myself</span>
-//                   </button>
-//                   <button
-//                     onClick={() => updateBookingData("bookingFor", "other")}
-//                     className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
-//                       bookingData.bookingFor === "other"
-//                         ? "border-blue-500 bg-blue-50 text-blue-700"
-//                         : "border-gray-200 hover:border-blue-300"
-//                     }`}
-//                   >
-//                     <UserPlus className="w-5 h-5" />
-//                     <span className="text-sm sm:text-base">For someone else</span>
-//                   </button>
-//                 </div>
-//               </CardContent>
-//             </Card>
+//             {infoVehicleId && (
+//               <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
+//                 <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-5 max-h-[80vh] overflow-y-auto">
+//                   {(() => {
+//                     const vehicle = allVehicleTypes.find(
+//                       (v) => v.id === infoVehicleId
+//                     );
+//                     const breakdown = vehicle
+//                       ? fareBreakdowns[vehicle.id]
+//                       : null;
 
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0 space-y-4">
-//                 <h3 className="text-base sm:text-lg font-semibold">Your details</h3>
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                   <div>
-//                     <label className="block text-sm font-medium text-gray-700 mb-2">
-//                       Full name *
-//                     </label>
-//                     <Input
-//                       type="text"
-//                       placeholder="Enter your full name"
-//                       value={bookingData.customerName}
-//                       onChange={(e) =>
-//                         updateBookingData("customerName", e.target.value)
-//                       }
-//                       required
-//                     />
-//                   </div>
-//                   <div>
-//                     <label className="block text-sm font-medium text-gray-700 mb-2">
-//                       Phone number *
-//                     </label>
-//                     <Input
-//                       type="tel"
-//                       placeholder="Enter 10-digit mobile number"
-//                       value={bookingData.customerPhone}
-//                       onChange={(e) =>
-//                         updateBookingData("customerPhone", e.target.value)
-//                       }
-//                       required
-//                     />
-//                   </div>
-//                 </div>
-//                 <div>
-//                   <label className="block text-sm font-medium text-gray-700 mb-2">
-//                     Email address
-//                   </label>
-//                   <Input
-//                     type="email"
-//                     placeholder="your.email@example.com"
-//                     value={bookingData.customerEmail}
-//                     onChange={(e) =>
-//                       updateBookingData("customerEmail", e.target.value)
-//                     }
-//                   />
-//                 </div>
-//               </CardContent>
-//             </Card>
+//                     if (!vehicle) return null;
 
-//             {bookingData.bookingFor === "other" && (
-//               <Card className="p-4 sm:p-6">
-//                 <CardContent className="p-0 space-y-4">
-//                   <h3 className="text-base sm:text-lg font-semibold">Passenger details</h3>
-//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-2">
-//                         Passenger name *
-//                       </label>
-//                       <Input
-//                         type="text"
-//                         placeholder="Enter passenger's full name"
-//                         value={bookingData.otherPersonName}
-//                         onChange={(e) =>
-//                           updateBookingData("otherPersonName", e.target.value)
-//                         }
-//                         required
-//                       />
-//                     </div>
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-2">
-//                         Passenger phone *
-//                       </label>
-//                       <Input
-//                         type="tel"
-//                         placeholder="Enter 10-digit mobile number"
-//                         value={bookingData.otherPersonPhone}
-//                         onChange={(e) =>
-//                           updateBookingData(
-//                             "otherPersonPhone",
-//                             e.target.value
-//                           )
-//                         }
-//                         required
-//                       />
-//                     </div>
-//                   </div>
-//                 </CardContent>
-//               </Card>
+//                     return (
+//                       <>
+//                         <div className="flex items-start justify-between mb-3 gap-3">
+//                           <div className="min-w-0">
+//                             <h3 className="text-base sm:text-lg font-semibold truncate">
+//                               {vehicle.name}
+//                             </h3>
+//                             <p className="text-xs sm:text-sm text-gray-600 break-words">
+//                               {vehicle.capacity} •{" "}
+//                               {vehicle.features?.join(" • ")}
+//                             </p>
+//                           </div>
+//                           <button
+//                             type="button"
+//                             onClick={() => setInfoVehicleId(null)}
+//                             className="text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
+//                           >
+//                             Close
+//                           </button>
+//                         </div>
+
+//                         {prices[vehicle.id] && (
+//                           <div className="mb-3">
+//                             <div className="text-xs text-gray-500">
+//                               Estimated fare
+//                             </div>
+//                             <div className="text-lg sm:text-xl font-semibold">
+//                               {prices[vehicle.id]}
+//                             </div>
+//                           </div>
+//                         )}
+
+//                         {breakdown && (
+//                           <div className="mt-2 border-t pt-3">
+//                             <div className="text-sm font-semibold mb-2">
+//                               Price breakdown
+//                             </div>
+//                             <ul className="text-xs sm:text-sm space-y-2">
+//                               {Object.entries(breakdown).map(
+//                                 ([key, value]) => (
+//                                   <li
+//                                     key={key}
+//                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1"
+//                                   >
+//                                     <span className="capitalize text-gray-700 break-words">
+//                                       {key.replace(
+//                                         /([a-z])([A-Z])/g,
+//                                         "$1 $2"
+//                                       )}
+//                                     </span>
+//                                     <span className="font-medium text-gray-900 break-words text-right sm:text-left">
+//                                       {typeof value === "number"
+//                                         ? value.toLocaleString("en-IN", {
+//                                             maximumFractionDigits: 2,
+//                                           })
+//                                         : String(value)}
+//                                     </span>
+//                                   </li>
+//                                 )
+//                               )}
+//                             </ul>
+//                           </div>
+//                         )}
+//                       </>
+//                     );
+//                   })()}
+//                 </div>
+//               </div>
 //             )}
-
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-base sm:text-lg font-semibold mb-4">
-//                   Apply coupon code
-//                 </h3>
-//                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-//                   <Input
-//                     type="text"
-//                     placeholder="Enter coupon code"
-//                     value={bookingData.couponCode}
-//                     onChange={(e) =>
-//                       updateBookingData("couponCode", e.target.value)
-//                     }
-//                     className="flex-1"
-//                   />
-//                   <Button
-//                     onClick={applyCoupon}
-//                     variant="outline"
-//                     className="bg-transparent w-full sm:w-auto"
-//                   >
-//                     <Tag className="w-4 h-4 mr-2" /> Apply
-//                   </Button>
-//                 </div>
-//                 <div className="mt-2 text-xs sm:text-sm text-gray-600">
-//                   Try: FIRST10, SAVE20, WELCOME15
-//                 </div>
-//               </CardContent>
-//             </Card>
-
-//             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-//               <Button
-//                 onClick={() => setShowBookingForm(false)}
-//                 variant="outline"
-//                 className="flex-1 bg-transparent"
-//               >
-//                 Back
-//               </Button>
-//               <Button
-//                 onClick={handleConfirmBooking}
-//                 className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
-//                 disabled={isSubmitting}
-//               >
-//                 {isSubmitting ? "Confirming..." : "Confirm booking"}
-//               </Button>
-//             </div>
 //           </div>
-//         )}
 
-//         {infoVehicleId && (
-//           <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
-//             <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-5">
-//               {(() => {
-//                 const vehicle = allVehicleTypes.find(
-//                   (v) => v.id === infoVehicleId
-//                 );
-//                 const breakdown = vehicle
-//                   ? fareBreakdowns[vehicle.id]
-//                   : null;
-
-//                 if (!vehicle) return null;
-
-//                 return (
-//                   <>
-//                     <div className="flex items-start justify-between mb-3">
-//                       <div>
-//                         <h3 className="text-base sm:text-lg font-semibold">
-//                           {vehicle.name}
-//                         </h3>
-//                         <p className="text-xs sm:text-sm text-gray-600">
-//                           {vehicle.capacity} •{" "}
-//                           {vehicle.features?.join(" • ")}
-//                         </p>
-//                       </div>
-//                       <button
-//                         type="button"
-//                         onClick={() => setInfoVehicleId(null)}
-//                         className="text-sm text-gray-500 hover:text-gray-800"
-//                       >
-//                         Close
-//                       </button>
-//                     </div>
-
-//                     {prices[vehicle.id] && (
-//                       <div className="mb-3">
-//                         <div className="text-xs text-gray-500">
-//                           Estimated fare
-//                         </div>
-//                         <div className="text-lg sm:text-xl font-semibold">
-//                           {prices[vehicle.id]}
-//                         </div>
-//                       </div>
-//                     )}
-
-//                     {breakdown && (
-//                       <div className="mt-2 border-t pt-3">
-//                         <div className="text-sm font-semibold mb-2">
-//                           Price breakdown
-//                         </div>
-//                         <ul className="text-xs sm:text-sm space-y-1">
-//                           {Object.entries(breakdown).map(([key, value]) => (
-//                             <li
-//                               key={key}
-//                               className="flex justify-between"
-//                             >
-//                               <span className="capitalize">
-//                                 {key.replace(
-//                                   /([a-z])([A-Z])/g,
-//                                   "$1 $2"
-//                                 )}
-//                               </span>
-//                               <span className="font-medium">
-//                                 {typeof value === "number"
-//                                   ? value.toLocaleString("en-IN", {
-//                                       maximumFractionDigits: 2,
-//                                     })
-//                                   : String(value)}
-//                               </span>
-//                             </li>
-//                           ))}
-//                         </ul>
-//                       </div>
-//                     )}
-//                   </>
-//                 );
-//               })()}
-//             </div>
+//           <div className="space-y-4 lg:space-y-6">
+//             {/* Right-side summary slot if needed */}
 //           </div>
-//         )}
+//         </div>
 //       </div>
 //       <Footer />
 //     </div>
@@ -1158,8 +1273,9 @@
 // }
 
 
+//testing (30-12-2025)
 
-//testing
+
 
 // "use client";
 
@@ -1167,7 +1283,7 @@
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { Card, CardContent } from "@/components/ui/card";
-// import { ArrowLeft, Tag, UserCheck, UserPlus, Lock } from "lucide-react";
+// import { ArrowLeft, Tag, UserCheck, UserPlus, Lock, MapPin } from "lucide-react";
 // import Link from "next/link";
 // import Navbar from "@/components/navbar";
 // import Footer from "@/components/footer";
@@ -1319,10 +1435,10 @@
 //   const BACKEND_URL =
 //     process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
-//   // Filter vehicles based on service type
-//   const vehicleTypes = bookingData.serviceType === "flexi" 
-//     ? allVehicleTypes.filter(v => v.id !== "innova")
-//     : allVehicleTypes;
+//   const vehicleTypes =
+//     bookingData.serviceType === "flexi"
+//       ? allVehicleTypes.filter((v) => v.id !== "innova")
+//       : allVehicleTypes;
 
 //   const getServiceDisplayName = (): string => {
 //     switch (bookingData.serviceType) {
@@ -1353,12 +1469,7 @@
 //     const pickup = bookingData.pickup?.trim();
 //     const destination = bookingData.destination?.trim();
 
-//     if (
-//       !pickup ||
-//       !destination ||
-//       !bookingData.pickupLat ||
-//       !bookingData.dropLat
-//     ) {
+//     if (!pickup || !destination || !bookingData.pickupLat || !bookingData.dropLat) {
 //       setDistanceError("Invalid booking data. Please go back to home page.");
 //       return;
 //     }
@@ -1417,14 +1528,8 @@
 //               "pickupLng",
 //               bookingData.pickupLng?.toString() || ""
 //             );
-//             urlParams.append(
-//               "dropLat",
-//               bookingData.dropLat?.toString() || ""
-//             );
-//             urlParams.append(
-//               "dropLng",
-//               bookingData.dropLng?.toString() || ""
-//             );
+//             urlParams.append("dropLat", bookingData.dropLat?.toString() || "");
+//             urlParams.append("dropLng", bookingData.dropLng?.toString() || "");
 //             urlParams.append("tripType", bookingData.tripType || "oneway");
 //             urlParams.append("pickupDate", bookingData.pickupDate || "");
 //             urlParams.append("pickupTime", bookingData.pickupTime || "");
@@ -1511,8 +1616,7 @@
 
 //   useEffect(() => {
 //     computeDistanceAndPrices();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
+//   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   useEffect(() => {
 //     if (bookingData.serviceType === "rental" && bookingData.rentalPlan) {
@@ -1520,8 +1624,7 @@
 //       setActualDistance(rentalPlanKmsMap[bookingData.rentalPlan] || 40);
 //       computeDistanceAndPrices(bookingData.rentalPlan);
 //     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [bookingData.rentalPlan, bookingData.serviceType]);
+//   }, [bookingData.rentalPlan, bookingData.serviceType]); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   const formatDistance = (km: number | null) =>
 //     km === null ? "—" : `${km.toFixed(2)} km`;
@@ -1619,8 +1722,8 @@
 //   return (
 //     <div className="min-h-screen bg-white">
 //       <Navbar />
-//       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-//         <div className="flex items-center mb-6">
+//       <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+//         <div className="flex items-center mb-4">
 //           <Link
 //             href="/"
 //             className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
@@ -1630,244 +1733,256 @@
 //           </Link>
 //         </div>
 
-//        <Card className="p-4 sm:p-6 mb-4">
-//   <CardContent className="p-0">
-//     <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600 text-left">
-//       Pick your locations
-//     </h3>
+//         <Card className="p-3 sm:p-4 mb-3">
+//           <CardContent className="p-0">
+//             <h3 className="text-lg sm:text-xl font-semibold mb-3 text-blue-600 text-left">
+//               Pick your locations
+//             </h3>
 
-//     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
-//           Pickup location
-//         </label>
-//         <Input
-//           value={bookingData.pickup}
-//           readOnly
-//           className="flex-1 bg-gray-50 cursor-not-allowed"
-//         />
-//       </div>
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-700 mb-1 text-left flex items-center">
+//                   <MapPin className="w-4 h-4 mr-1 text-green-600" />
+//                   Pickup location
+//                 </label>
+//                 <Input
+//                   value={bookingData.pickup}
+//                   readOnly
+//                   className="flex-1 bg-gray-50 cursor-not-allowed"
+//                 />
+//               </div>
 
-//       <div>
-//         <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
-//           Drop location
-//         </label>
-//         <Input
-//           value={bookingData.destination}
-//           readOnly
-//           className="bg-gray-50 cursor-not-allowed"
-//         />
-//       </div>
-//     </div>
-
-//     <div className="flex justify-between items-center mt-3">
-//       <button
-//         type="button"
-//         onClick={() => {
-//           // send user back to booking interface to change addresses
-//           router.push("/");
-//         }}
-//         className="text-xs font-medium text-blue-600 hover:text-blue-800"
-//       >
-//         Change locations
-//       </button>
-//     </div>
-
-//     {bookingData.serviceType === "outstation" && (
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
-//             Pickup date & time *
-//           </label>
-//           <input
-//             className="border p-2 rounded w-full text-sm"
-//             type="date"
-//             value={bookingData.pickupDate}
-//             onChange={(e) => updateBookingData("pickupDate", e.target.value)}
-//           />
-//           <input
-//             className="border p-2 rounded w-full mt-1 text-sm"
-//             type="time"
-//             value={bookingData.pickupTime}
-//             onChange={(e) => updateBookingData("pickupTime", e.target.value)}
-//           />
-//         </div>
-//         {bookingData.tripType === "roundtrip" && (
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
-//               Return date & time *
-//             </label>
-//             <input
-//               className="border p-2 rounded w-full text-sm"
-//               type="date"
-//               value={bookingData.returnDate}
-//               onChange={(e) => updateBookingData("returnDate", e.target.value)}
-//             />
-//             <input
-//               className="border p-2 rounded w-full mt-1 text-sm"
-//               type="time"
-//               value={bookingData.returnTime}
-//               onChange={(e) => updateBookingData("returnTime", e.target.value)}
-//             />
-//           </div>
-//         )}
-//       </div>
-//     )}
-
-//     {bookingData.serviceType === "outstation" &&
-//       bookingData.tripType === "roundtrip" && (
-//         <div className="mt-2 text-sm text-blue-800 text-left">
-//           Estimated total time{" "}
-//           <b>
-//             {formatTimeHours(lockedTripHours || totalTripHours)} (
-//             {formatTimeMins(lockedTripMinutes || totalTripMinutes)})
-//           </b>
-//         </div>
-//       )}
-
-//     {(!bookingData.pickup ||
-//       !bookingData.destination ||
-//       !bookingData.pickupLat ||
-//       !bookingData.dropLat) && (
-//       <div className="text-xs text-red-500 mt-2 text-left">
-//         Please go back and select valid pickup and drop locations on the
-//         booking screen.
-//       </div>
-//     )}
-//   </CardContent>
-// </Card>
-
-
-//         {!showBookingForm ? (
-//           <div className="space-y-6">
-//             <div className="mb-6">
-//               <div className="mt-4">
-//                 <div className="inline-flex items-center bg-blue-100 rounded-full px-4 py-2">
-//                   <span className="text-blue-700 font-medium text-sm sm:text-base">
-//                     Service: {getServiceDisplayName()}
-//                   </span>
-//                 </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-700 mb-1 text-left flex items-center">
+//                   <MapPin className="w-4 h-4 mr-1 text-red-600" />
+//                   Drop location
+//                 </label>
+//                 <Input
+//                   value={bookingData.destination}
+//                   readOnly
+//                   className="bg-gray-50 cursor-not-allowed"
+//                 />
 //               </div>
 //             </div>
-            
-//             <div className="text-sm text-gray-600">
-//               <div className="flex flex-wrap gap-2 items-center">
-//                 <span className="font-medium">Distance:</span>{" "}
-//                 <span>
-//                   {calculatingDistance
-//                     ? "Calculating..."
-//                     : isLocked
-//                     ? formatDistance(lockedDistanceKm)
-//                     : formatDistance(distanceKm)}
-//                 </span>
-//                 <span className="text-gray-400">•</span>
-//                 <span className="font-medium">Duration:</span>{" "}
-//                 <span>
-//                   {calculatingDistance
-//                     ? "Calculating..."
-//                     : isLocked
-//                     ? formatTimeMins(lockedTripMinutes)
-//                     : formatTimeMins(totalTripMinutes)}
-//                 </span>
-//               </div>
-//               {distanceError && (
-//                 <div className="text-xs text-red-600 mt-1">
-//                   {distanceError}
-//                 </div>
-//               )}
-//             </div>
-            
-//             <div className="text-xl sm:text-2xl font-bold text-blue-900">
-//               {pricesLoading[bookingData.vehicleType]
-//                 ? "Calculating..."
-//                 : prices[bookingData.vehicleType]
-//                 ? prices[bookingData.vehicleType]
-//                 : ""}
-//             </div>
-//             {bookingData.serviceType === "rental" &&
-//               bookingData.rentalPlan && (
-//                 <Card className="p-4 sm:p-6 mt-6">
-//                   <CardContent className="p-0">
-//                     <h3 className="text-base sm:text-lg font-semibold mb-3 text-blue-600">
-//                       Actual usage (for extra charges)
-//                     </h3>
-//                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Actual hours used
-//                         </label>
-//                         <Input
-//                           type="number"
-//                           min={rentalPlanHoursMap[bookingData.rentalPlan] || 4}
-//                           value={actualHours}
-//                           onChange={(e) =>
-//                             setActualHours(Number(e.target.value))
-//                           }
-//                         />
-//                       </div>
-//                       <div>
-//                         <label className="block text-sm font-medium text-gray-700 mb-2">
-//                           Actual distance (km)
-//                         </label>
-//                         <Input
-//                           type="number"
-//                           min={rentalPlanKmsMap[bookingData.rentalPlan] || 40}
-//                           value={actualDistance}
-//                           onChange={(e) =>
-//                             setActualDistance(Number(e.target.value))
-//                           }
-//                         />
-//                       </div>
-//                     </div>
-//                   </CardContent>
-//                 </Card>
-//               )}
 
-//             {bookingData.serviceType === "rental" && (
-//               <Card className="p-4 sm:p-6">
-//                 <CardContent className="p-0">
-//                   <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
-//                     Rental plans
-//                   </h3>
-//                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-//                     {rentalPlans.map((plan) => (
-//                       <button
-//                         key={plan.id}
-//                         onClick={() =>
-//                           updateBookingData("rentalPlan", plan.id)
-//                         }
-//                         className={`p-3 sm:p-4 rounded-lg border-2 text-center transition-all ${
-//                           bookingData.rentalPlan === plan.id
-//                             ? "border-blue-500 bg-blue-50 text-blue-700"
-//                             : "border-gray-200 hover:border-blue-300"
-//                         }`}
-//                       >
-//                         <div className="font-semibold text-base sm:text-lg">
-//                           {plan.name}
-//                         </div>
-//                         <div className="text-xs sm:text-sm text-gray-600">
-//                           {plan.duration}
-//                         </div>
-//                       </button>
-//                     ))}
+//             <div className="flex justify-between items-center mt-2">
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   router.push("/");
+//                 }}
+//                 className="text-xs font-medium text-blue-600 hover:text-blue-800"
+//               >
+//                 Change locations
+//               </button>
+//             </div>
+
+//             {bookingData.serviceType === "outstation" && (
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
+//                     Pickup date & time *
+//                   </label>
+//                   <input
+//                     className="border p-2 rounded w-full text-sm"
+//                     type="date"
+//                     value={bookingData.pickupDate}
+//                     onChange={(e) =>
+//                       updateBookingData("pickupDate", e.target.value)
+//                     }
+//                   />
+//                   <input
+//                     className="border p-2 rounded w-full mt-1 text-sm"
+//                     type="time"
+//                     value={bookingData.pickupTime}
+//                     onChange={(e) =>
+//                       updateBookingData("pickupTime", e.target.value)
+//                     }
+//                   />
+//                 </div>
+//                 {bookingData.tripType === "roundtrip" && (
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
+//                       Return date & time *
+//                     </label>
+//                     <input
+//                       className="border p-2 rounded w-full text-sm"
+//                       type="date"
+//                       value={bookingData.returnDate}
+//                       onChange={(e) =>
+//                         updateBookingData("returnDate", e.target.value)
+//                       }
+//                     />
+//                     <input
+//                       className="border p-2 rounded w-full mt-1 text-sm"
+//                       type="time"
+//                       value={bookingData.returnTime}
+//                       onChange={(e) =>
+//                         updateBookingData("returnTime", e.target.value)
+//                       }
+//                     />
 //                   </div>
-//                 </CardContent>
-//               </Card>
+//                 )}
+//               </div>
 //             )}
 
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
-//                   Vehicle type
-//                 </h3>
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-//                   {vehicleTypes.map((vehicle) => {
-//                     const breakdown = fareBreakdowns[vehicle.id];
+//             {bookingData.serviceType === "outstation" &&
+//               bookingData.tripType === "roundtrip" && (
+//                 <div className="mt-2 text-sm text-blue-800 text-left">
+//                   Estimated total time{" "}
+//                   <b>
+//                     {formatTimeHours(lockedTripHours || totalTripHours)} (
+//                     {formatTimeMins(lockedTripMinutes || totalTripMinutes)})
+//                   </b>
+//                 </div>
+//               )}
 
-//                     return (
-//                       <button
-//                         key={vehicle.id}
-//                         onClick={() => {
+//             {(!bookingData.pickup ||
+//               !bookingData.destination ||
+//               !bookingData.pickupLat ||
+//               !bookingData.dropLat) && (
+//               <div className="text-xs text-red-500 mt-2 text-left">
+//                 Please go back and select valid pickup and drop locations on the
+//                 booking screen.
+//               </div>
+//             )}
+//           </CardContent>
+//         </Card>
+
+//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:items-start">
+//           <div className="lg:col-span-2 space-y-4">
+//             {!showBookingForm ? (
+//               <div className="space-y-4">
+//                 <div className="mb-3">
+//                   <div className="mt-2">
+//                     <div className="inline-flex items-center bg-blue-100 rounded-full px-3 py-1.5">
+//                       <span className="text-blue-700 font-medium text-sm sm:text-base">
+//                         Service: {getServiceDisplayName()}
+//                       </span>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 <div className="text-sm text-gray-600">
+//                   <div className="flex flex-wrap gap-2 items-center">
+//                     <span className="font-medium">Distance:</span>{" "}
+//                     <span>
+//                       {calculatingDistance
+//                         ? "Calculating..."
+//                         : isLocked
+//                         ? formatDistance(lockedDistanceKm)
+//                         : formatDistance(distanceKm)}
+//                     </span>
+//                     <span className="text-gray-400">•</span>
+//                     <span className="font-medium">Duration:</span>{" "}
+//                     <span>
+//                       {calculatingDistance
+//                         ? "Calculating..."
+//                         : isLocked
+//                         ? formatTimeMins(lockedTripMinutes)
+//                         : formatTimeMins(totalTripMinutes)}
+//                     </span>
+//                   </div>
+//                   {distanceError && (
+//                     <div className="text-xs text-red-600 mt-1">
+//                       {distanceError}
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div className="text-xl sm:text-2xl font-bold text-blue-900">
+//                   {pricesLoading[bookingData.vehicleType]
+//                     ? "Calculating..."
+//                     : prices[bookingData.vehicleType]
+//                     ? prices[bookingData.vehicleType]
+//                     : ""}
+//                 </div>
+
+//                 {bookingData.serviceType === "rental" &&
+//                   bookingData.rentalPlan && (
+//                     <Card className="p-3 sm:p-4 mt-3">
+//                       <CardContent className="p-0">
+//                         <h3 className="text-base sm:text-lg font-semibold mb-2 text-blue-600">
+//                           Actual usage (for extra charges)
+//                         </h3>
+//                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+//                           <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-1">
+//                               Actual hours used
+//                             </label>
+//                             <Input
+//                               type="number"
+//                               min={
+//                                 rentalPlanHoursMap[bookingData.rentalPlan] || 4
+//                               }
+//                               value={actualHours}
+//                               onChange={(e) =>
+//                                 setActualHours(Number(e.target.value))
+//                               }
+//                             />
+//                           </div>
+//                           <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-1">
+//                               Actual distance (km)
+//                             </label>
+//                             <Input
+//                               type="number"
+//                               min={
+//                                 rentalPlanKmsMap[bookingData.rentalPlan] || 40
+//                               }
+//                               value={actualDistance}
+//                               onChange={(e) =>
+//                                 setActualDistance(Number(e.target.value))
+//                               }
+//                             />
+//                           </div>
+//                         </div>
+//                       </CardContent>
+//                     </Card>
+//                   )}
+
+//                 {bookingData.serviceType === "rental" && (
+//                   <Card className="p-3 sm:p-4">
+//                     <CardContent className="p-0">
+//                       <h3 className="text-lg sm:text-xl font-semibold mb-3 text-blue-600">
+//                         Rental plans
+//                       </h3>
+//                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+//                         {rentalPlans.map((plan) => (
+//                           <button
+//                             key={plan.id}
+//                             onClick={() =>
+//                               updateBookingData("rentalPlan", plan.id)
+//                             }
+//                             className={`p-2 sm:p-3 rounded-lg border-2 text-center transition-all ${
+//                               bookingData.rentalPlan === plan.id
+//                                 ? "border-blue-500 bg-blue-50 text-blue-700"
+//                                 : "border-gray-200 hover:border-blue-300"
+//                             }`}
+//                           >
+//                             <div className="font-semibold text-base sm:text-lg">
+//                               {plan.name}
+//                             </div>
+//                             <div className="text-xs sm:text-sm text-gray-600">
+//                               {plan.duration}
+//                             </div>
+//                           </button>
+//                         ))}
+//                       </div>
+//                     </CardContent>
+//                   </Card>
+//                 )}
+
+//                 <Card className="p-3 sm:p-4">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-lg sm:text-xl font-semibold mb-3 text-blue-600">
+//                       Vehicle type
+//                     </h3>
+//                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+//                       {vehicleTypes.map((vehicle) => {
+//                         const breakdown = fareBreakdowns[vehicle.id];
+
+//                         const onSelectVehicle = () => {
 //                           setBookingData((prev) => ({
 //                             ...prev,
 //                             vehicleType: vehicle.id,
@@ -1875,365 +1990,407 @@
 //                             gstAmount: breakdown?.gstAmount || 0,
 //                             totalFare: breakdown?.totalFareWithGST || 0,
 //                           }));
-//                         }}
-//                         className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left ${
-//                           bookingData.vehicleType === vehicle.id
-//                             ? "border-blue-500 bg-blue-50"
+//                         };
+
+//                         return (
+//                           <div
+//                             key={vehicle.id}
+//                             role="button"
+//                             tabIndex={0}
+//                             onClick={onSelectVehicle}
+//                             onKeyDown={(e) => {
+//                               if (e.key === "Enter" || e.key === " ") {
+//                                 e.preventDefault();
+//                                 onSelectVehicle();
+//                               }
+//                             }}
+//                             className={`p-3 rounded-lg border-2 transition-all flex flex-col justify-between text-left cursor-pointer ${
+//                               bookingData.vehicleType === vehicle.id
+//                                 ? "border-blue-500 bg-blue-50"
+//                                 : "border-gray-200 hover:border-blue-300"
+//                             }`}
+//                           >
+//                             <div className="flex items-start justify-between gap-2">
+//                               <div className="flex items-center gap-3">
+//                                 <img
+//                                   src={vehicle.image || "/placeholder.svg"}
+//                                   alt={vehicle.name}
+//                                   className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
+//                                 />
+//                                 <div>
+//                                   <div className="font-semibold text-sm sm:text-base">
+//                                     {vehicle.name}
+//                                   </div>
+//                                   <div className="text-xs sm:text-sm text-gray-600">
+//                                     {vehicle.capacity}
+//                                   </div>
+//                                   <div className="text-xs text-gray-500 line-clamp-2">
+//                                     {vehicle.features?.join(" • ")}
+//                                   </div>
+//                                 </div>
+//                               </div>
+
+//                               <button
+//                                 type="button"
+//                                 aria-label={`View details for ${vehicle.name}`}
+//                                 onClick={(e) => {
+//                                   e.stopPropagation();
+//                                   setInfoVehicleId(vehicle.id);
+//                                 }}
+//                                 className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
+//                               >
+//                                 i
+//                               </button>
+//                             </div>
+
+//                             <div className="mt-2">
+//                               {pricesLoading[vehicle.id] ? (
+//                                 <div className="text-sm text-gray-600">Calculating...</div>
+//                               ) : prices[vehicle.id] ? (
+//                                 <div className="text-base sm:text-lg font-semibold">
+//                                   {prices[vehicle.id]}
+//                                 </div>
+//                               ) : (
+//                                 <div className="text-base sm:text-lg font-semibold">
+//                                   {new Intl.NumberFormat("en-IN", {
+//                                     style: "currency",
+//                                     currency: "INR",
+//                                   }).format(vehicle.basePrice)}
+//                                 </div>
+//                               )}
+//                               <div className="text-xs text-gray-500 mt-1">
+//                                 {isLocked
+//                                   ? `${lockedDistanceKm?.toFixed(2)} km`
+//                                   : distanceKm
+//                                   ? `${distanceKm.toFixed(2)} km`
+//                                   : "Price based on route"}
+//                               </div>
+//                             </div>
+//                           </div>
+//                         );
+//                       })}
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 <Button
+//                   onClick={handleBookNow}
+//                   disabled={isBookNowDisabled}
+//                   className="w-full bg-blue-500 text-white hover:bg-blue-600 py-3 text-base sm:text-lg font-semibold"
+//                 >
+//                   Book now
+//                 </Button>
+//               </div>
+//             ) : (
+//               <div ref={bookingFormRef} className="space-y-4">
+//                 {inlineMessage && (
+//                   <div className="mb-3 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">
+//                     {inlineMessage}
+//                   </div>
+//                 )}
+
+//                 <div className="mb-3">
+//                   <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
+//                     Complete your {getServiceDisplayName()} booking
+//                   </h2>
+//                   <p className="text-sm sm:text-base text-gray-600">
+//                     Fill in the details to confirm your booking.
+//                   </p>
+//                   {isLocked && (
+//                     <div className="mt-3 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 py-1.5 text-xs sm:text-sm text-green-800">
+//                       <Lock className="w-4 h-4 mr-2" />
+//                       <span>
+//                         Your fare is locked at {prices[bookingData.vehicleType]}{" "}
+//                         for {formatDistance(lockedDistanceKm)}
+//                       </span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <Card className="p-3 sm:p-4">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-base sm:text-lg font-semibold mb-3">
+//                       Who are you booking for?
+//                     </h3>
+//                     <div className="flex gap-3">
+//                       <button
+//                         onClick={() =>
+//                           updateBookingData("bookingFor", "self")
+//                         }
+//                         className={`flex-1 p-3 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+//                           bookingData.bookingFor === "self"
+//                             ? "border-blue-500 bg-blue-50 text-blue-700"
 //                             : "border-gray-200 hover:border-blue-300"
 //                         }`}
 //                       >
-//                         <div className="flex items-start justify-between gap-2">
-//                           <div className="flex items-center gap-3">
-//                             <img
-//                               src={vehicle.image || "/placeholder.svg"}
-//                               alt={vehicle.name}
-//                               className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
-//                             />
-//                             <div>
-//                               <div className="font-semibold text-sm sm:text-base">
-//                                 {vehicle.name}
-//                               </div>
-//                               <div className="text-xs sm:text-sm text-gray-600">
-//                                 {vehicle.capacity}
-//                               </div>
-//                               <div className="text-xs text-gray-500 line-clamp-2">
-//                                 {vehicle.features?.join(" • ")}
-//                               </div>
-//                             </div>
-//                           </div>
-
-//                           <button
-//                             type="button"
-//                             aria-label={`View details for ${vehicle.name}`}
-//                             onClick={(e) => {
-//                               e.stopPropagation();
-//                               setInfoVehicleId(vehicle.id);
-//                             }}
-//                             className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
-//                           >
-//                             i
-//                           </button>
-//                         </div>
-
-//                         <div className="mt-3">
-//                           {pricesLoading[vehicle.id] ? (
-//                             <div className="text-sm text-gray-600">
-//                               Calculating...
-//                             </div>
-//                           ) : prices[vehicle.id] ? (
-//                             <div className="text-base sm:text-lg font-semibold">
-//                               {prices[vehicle.id]}
-//                             </div>
-//                           ) : (
-//                             <div className="text-base sm:text-lg font-semibold">
-//                               {new Intl.NumberFormat("en-IN", {
-//                                 style: "currency",
-//                                 currency: "INR",
-//                               }).format(vehicle.basePrice)}
-//                             </div>
-//                           )}
-//                           <div className="text-xs text-gray-500 mt-1">
-//                             {isLocked
-//                               ? `${lockedDistanceKm?.toFixed(2)} km`
-//                               : distanceKm
-//                               ? `${distanceKm.toFixed(2)} km`
-//                               : "Price based on route"}
-//                           </div>
-//                         </div>
+//                         <UserCheck className="w-5 h-5" />
+//                         <span className="text-sm sm:text-base">
+//                           For myself
+//                         </span>
 //                       </button>
-//                     );
-//                   })}
-//                 </div>
-//               </CardContent>
-//             </Card>
+//                       <button
+//                         onClick={() =>
+//                           updateBookingData("bookingFor", "other")
+//                         }
+//                         className={`flex-1 p-3 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+//                           bookingData.bookingFor === "other"
+//                             ? "border-blue-500 bg-blue-50 text-blue-700"
+//                             : "border-gray-200 hover:border-blue-300"
+//                         }`}
+//                       >
+//                         <UserPlus className="w-5 h-5" />
+//                         <span className="text-sm sm:text-base">
+//                           For someone else
+//                         </span>
+//                       </button>
+//                     </div>
+//                   </CardContent>
+//                 </Card>
 
-//             <Button
-//               onClick={handleBookNow}
-//               disabled={isBookNowDisabled}
-//               className="w-full bg-blue-500 text-white hover:bg-blue-600 py-4 text-base sm:text-lg font-semibold"
-//             >
-//               Book now
-//             </Button>
-//           </div>
-//         ) : (
-//           <div ref={bookingFormRef} className="space-y-6">
-//             {inlineMessage && (
-//               <div className="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-//                 {inlineMessage}
+//                 <Card className="p-3 sm:p-4">
+//                   <CardContent className="p-0 space-y-3">
+//                     <h3 className="text-base sm:text-lg font-semibold">
+//                       Your details
+//                     </h3>
+//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-1">
+//                           Full name *
+//                         </label>
+//                         <Input
+//                           type="text"
+//                           placeholder="Enter your full name"
+//                           value={bookingData.customerName}
+//                           onChange={(e) =>
+//                             updateBookingData("customerName", e.target.value)
+//                           }
+//                           required
+//                         />
+//                       </div>
+//                       <div>
+//                         <label className="block text-sm font-medium text-gray-700 mb-1">
+//                           Phone number *
+//                         </label>
+//                         <Input
+//                           type="tel"
+//                           placeholder="Enter 10-digit mobile number"
+//                           value={bookingData.customerPhone}
+//                           onChange={(e) => {
+//                             const value = e.target.value.replace(/\D/g, '');
+//                             if (value.length <= 10) {
+//                               updateBookingData("customerPhone", value);
+//                             }
+//                           }}
+//                           maxLength={10}
+//                           required
+//                         />
+//                       </div>
+//                     </div>
+//                     <div>
+//                       <label className="block text-sm font-medium text-gray-700 mb-1">
+//                         Email address
+//                       </label>
+//                       <Input
+//                         type="email"
+//                         placeholder="your.email@example.com"
+//                         value={bookingData.customerEmail}
+//                         onChange={(e) =>
+//                           updateBookingData("customerEmail", e.target.value)
+//                         }
+//                       />
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 {bookingData.bookingFor === "other" && (
+//                   <Card className="p-3 sm:p-4">
+//                     <CardContent className="p-0 space-y-3">
+//                       <h3 className="text-base sm:text-lg font-semibold">
+//                         Passenger details
+//                       </h3>
+//                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+//                         <div>
+//                           <label className="block text-sm font-medium text-gray-700 mb-1">
+//                             Passenger name *
+//                           </label>
+//                           <Input
+//                             type="text"
+//                             placeholder="Enter passenger's full name"
+//                             value={bookingData.otherPersonName}
+//                             onChange={(e) =>
+//                               updateBookingData(
+//                                 "otherPersonName",
+//                                 e.target.value
+//                               )
+//                             }
+//                             required
+//                           />
+//                         </div>
+//                         <div>
+//                           <label className="block text-sm font-medium text-gray-700 mb-1">
+//                             Passenger phone *
+//                           </label>
+//                           <Input
+//                             type="tel"
+//                             placeholder="Enter 10-digit mobile number"
+//                             value={bookingData.otherPersonPhone}
+//                             onChange={(e) => {
+//                               const value = e.target.value.replace(/\D/g, '');
+//                               if (value.length <= 10) {
+//                                 updateBookingData("otherPersonPhone", value);
+//                               }
+//                             }}
+//                             maxLength={10}
+//                             required
+//                           />
+//                         </div>
+//                       </div>
+//                     </CardContent>
+//                   </Card>
+//                 )}
+
+
+//                 <Card className="p-3 sm:p-4">
+//                   <CardContent className="p-0">
+//                     <h3 className="text-base sm:text-lg font-semibold mb-3">
+//                       Apply coupon code
+//                     </h3>
+//                     <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+//                       <Input
+//                         type="text"
+//                         placeholder="Enter coupon code"
+//                         value={bookingData.couponCode}
+//                         onChange={(e) =>
+//                           updateBookingData("couponCode", e.target.value)
+//                         }
+//                         className="flex-1"
+//                       />
+//                       <Button
+//                         onClick={applyCoupon}
+//                         variant="outline"
+//                         className="bg-transparent w-full sm:w-auto"
+//                       >
+//                         <Tag className="w-4 h-4 mr-2" /> Apply
+//                       </Button>
+//                     </div>
+//                     <div className="mt-2 text-xs sm:text-sm text-gray-600">
+//                       Try: FIRST10, SAVE20, WELCOME15
+//                     </div>
+//                   </CardContent>
+//                 </Card>
+
+//                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+//                   <Button
+//                     onClick={() => setShowBookingForm(false)}
+//                     variant="outline"
+//                     className="flex-1 bg-transparent"
+//                   >
+//                     Back
+//                   </Button>
+//                   <Button
+//                     onClick={handleConfirmBooking}
+//                     className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
+//                     disabled={isSubmitting}
+//                   >
+//                     {isSubmitting ? "Confirming..." : "Confirm booking"}
+//                   </Button>
+//                 </div>
 //               </div>
 //             )}
 
-//             <div className="mb-6">
-//               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-//                 Complete your {getServiceDisplayName()} booking
-//               </h2>
-//               <p className="text-sm sm:text-base text-gray-600">
-//                 Fill in the details to confirm your booking.
-//               </p>
-//               {isLocked && (
-//                 <div className="mt-4 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-green-800">
-//                   <Lock className="w-4 h-4 mr-2" />
-//                   <span>Your fare is locked at {prices[bookingData.vehicleType]} for{" "}
-//                   {formatDistance(lockedDistanceKm)}</span>
-//                 </div>
-//               )}
-//             </div>
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-base sm:text-lg font-semibold mb-4">
-//                   Who are you booking for?
-//                 </h3>
-//                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//                   <button
-//                     onClick={() => updateBookingData("bookingFor", "self")}
-//                     className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
-//                       bookingData.bookingFor === "self"
-//                         ? "border-blue-500 bg-blue-50 text-blue-700"
-//                         : "border-gray-200 hover:border-blue-300"
-//                     }`}
-//                   >
-//                     <UserCheck className="w-5 h-5" />
-//                     <span className="text-sm sm:text-base">For myself</span>
-//                   </button>
-//                   <button
-//                     onClick={() => updateBookingData("bookingFor", "other")}
-//                     className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
-//                       bookingData.bookingFor === "other"
-//                         ? "border-blue-500 bg-blue-50 text-blue-700"
-//                         : "border-gray-200 hover:border-blue-300"
-//                     }`}
-//                   >
-//                     <UserPlus className="w-5 h-5" />
-//                     <span className="text-sm sm:text-base">For someone else</span>
-//                   </button>
-//                 </div>
-//               </CardContent>
-//             </Card>
+//             {infoVehicleId && (
+//               <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
+//                 <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-4 max-h-[80vh] overflow-y-auto">
+//                   {(() => {
+//                     const vehicle = allVehicleTypes.find(
+//                       (v) => v.id === infoVehicleId
+//                     );
+//                     const breakdown = vehicle
+//                       ? fareBreakdowns[vehicle.id]
+//                       : null;
 
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0 space-y-4">
-//                 <h3 className="text-base sm:text-lg font-semibold">Your details</h3>
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                   <div>
-//                     <label className="block text-sm font-medium text-gray-700 mb-2">
-//                       Full name *
-//                     </label>
-//                     <Input
-//                       type="text"
-//                       placeholder="Enter your full name"
-//                       value={bookingData.customerName}
-//                       onChange={(e) =>
-//                         updateBookingData("customerName", e.target.value)
-//                       }
-//                       required
-//                     />
-//                   </div>
-//                   <div>
-//                     <label className="block text-sm font-medium text-gray-700 mb-2">
-//                       Phone number *
-//                     </label>
-//                     <Input
-//                       type="tel"
-//                       placeholder="Enter 10-digit mobile number"
-//                       value={bookingData.customerPhone}
-//                       onChange={(e) =>
-//                         updateBookingData("customerPhone", e.target.value)
-//                       }
-//                       required
-//                     />
-//                   </div>
-//                 </div>
-//                 <div>
-//                   <label className="block text-sm font-medium text-gray-700 mb-2">
-//                     Email address
-//                   </label>
-//                   <Input
-//                     type="email"
-//                     placeholder="your.email@example.com"
-//                     value={bookingData.customerEmail}
-//                     onChange={(e) =>
-//                       updateBookingData("customerEmail", e.target.value)
-//                     }
-//                   />
-//                 </div>
-//               </CardContent>
-//             </Card>
+//                     if (!vehicle) return null;
 
-//             {bookingData.bookingFor === "other" && (
-//               <Card className="p-4 sm:p-6">
-//                 <CardContent className="p-0 space-y-4">
-//                   <h3 className="text-base sm:text-lg font-semibold">Passenger details</h3>
-//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-2">
-//                         Passenger name *
-//                       </label>
-//                       <Input
-//                         type="text"
-//                         placeholder="Enter passenger's full name"
-//                         value={bookingData.otherPersonName}
-//                         onChange={(e) =>
-//                           updateBookingData("otherPersonName", e.target.value)
-//                         }
-//                         required
-//                       />
-//                     </div>
-//                     <div>
-//                       <label className="block text-sm font-medium text-gray-700 mb-2">
-//                         Passenger phone *
-//                       </label>
-//                       <Input
-//                         type="tel"
-//                         placeholder="Enter 10-digit mobile number"
-//                         value={bookingData.otherPersonPhone}
-//                         onChange={(e) =>
-//                           updateBookingData(
-//                             "otherPersonPhone",
-//                             e.target.value
-//                           )
-//                         }
-//                         required
-//                       />
-//                     </div>
-//                   </div>
-//                 </CardContent>
-//               </Card>
+//                     return (
+//                       <>
+//                         <div className="flex items-start justify-between mb-2 gap-3">
+//                           <div className="min-w-0">
+//                             <h3 className="text-base sm:text-lg font-semibold truncate">
+//                               {vehicle.name}
+//                             </h3>
+//                             <p className="text-xs sm:text-sm text-gray-600 break-words">
+//                               {vehicle.capacity} •{" "}
+//                               {vehicle.features?.join(" • ")}
+//                             </p>
+//                           </div>
+//                           <button
+//                             type="button"
+//                             onClick={() => setInfoVehicleId(null)}
+//                             className="text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
+//                           >
+//                             Close
+//                           </button>
+//                         </div>
+
+//                         {prices[vehicle.id] && (
+//                           <div className="mb-2">
+//                             <div className="text-xs text-gray-500">
+//                               Estimated fare
+//                             </div>
+//                             <div className="text-lg sm:text-xl font-semibold">
+//                               {prices[vehicle.id]}
+//                             </div>
+//                           </div>
+//                         )}
+
+//                         {breakdown && (
+//                           <div className="mt-2 border-t pt-2">
+//                             <div className="text-sm font-semibold mb-2">
+//                               Price breakdown
+//                             </div>
+//                             <ul className="text-xs sm:text-sm space-y-1.5">
+//                               {Object.entries(breakdown).map(
+//                                 ([key, value]) => (
+//                                   <li
+//                                     key={key}
+//                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1"
+//                                   >
+//                                     <span className="capitalize text-gray-700 break-words">
+//                                       {key.replace(
+//                                         /([a-z])([A-Z])/g,
+//                                         "$1 $2"
+//                                       )}
+//                                     </span>
+//                                     <span className="font-medium text-gray-900 break-words text-right sm:text-left">
+//                                       {typeof value === "number"
+//                                         ? value.toLocaleString("en-IN", {
+//                                             maximumFractionDigits: 2,
+//                                           })
+//                                         : String(value)}
+//                                     </span>
+//                                   </li>
+//                                 )
+//                               )}
+//                             </ul>
+//                           </div>
+//                         )}
+//                       </>
+//                     );
+//                   })()}
+//                 </div>
+//               </div>
 //             )}
-
-//             <Card className="p-4 sm:p-6">
-//               <CardContent className="p-0">
-//                 <h3 className="text-base sm:text-lg font-semibold mb-4">
-//                   Apply coupon code
-//                 </h3>
-//                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-//                   <Input
-//                     type="text"
-//                     placeholder="Enter coupon code"
-//                     value={bookingData.couponCode}
-//                     onChange={(e) =>
-//                       updateBookingData("couponCode", e.target.value)
-//                     }
-//                     className="flex-1"
-//                   />
-//                   <Button
-//                     onClick={applyCoupon}
-//                     variant="outline"
-//                     className="bg-transparent w-full sm:w-auto"
-//                   >
-//                     <Tag className="w-4 h-4 mr-2" /> Apply
-//                   </Button>
-//                 </div>
-//                 <div className="mt-2 text-xs sm:text-sm text-gray-600">
-//                   Try: FIRST10, SAVE20, WELCOME15
-//                 </div>
-//               </CardContent>
-//             </Card>
-
-//             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-//               <Button
-//                 onClick={() => setShowBookingForm(false)}
-//                 variant="outline"
-//                 className="flex-1 bg-transparent"
-//               >
-//                 Back
-//               </Button>
-//               <Button
-//                 onClick={handleConfirmBooking}
-//                 className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
-//                 disabled={isSubmitting}
-//               >
-//                 {isSubmitting ? "Confirming..." : "Confirm booking"}
-//               </Button>
-//             </div>
 //           </div>
-//         )}
 
-//         {infoVehicleId && (
-//           <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
-//             <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-5">
-//               {(() => {
-//                 const vehicle = allVehicleTypes.find(
-//                   (v) => v.id === infoVehicleId
-//                 );
-//                 const breakdown = vehicle
-//                   ? fareBreakdowns[vehicle.id]
-//                   : null;
-
-//                 if (!vehicle) return null;
-
-//                 return (
-//                   <>
-//                     <div className="flex items-start justify-between mb-3">
-//                       <div>
-//                         <h3 className="text-base sm:text-lg font-semibold">
-//                           {vehicle.name}
-//                         </h3>
-//                         <p className="text-xs sm:text-sm text-gray-600">
-//                           {vehicle.capacity} •{" "}
-//                           {vehicle.features?.join(" • ")}
-//                         </p>
-//                       </div>
-//                       <button
-//                         type="button"
-//                         onClick={() => setInfoVehicleId(null)}
-//                         className="text-sm text-gray-500 hover:text-gray-800"
-//                       >
-//                         Close
-//                       </button>
-//                     </div>
-
-//                     {prices[vehicle.id] && (
-//                       <div className="mb-3">
-//                         <div className="text-xs text-gray-500">
-//                           Estimated fare
-//                         </div>
-//                         <div className="text-lg sm:text-xl font-semibold">
-//                           {prices[vehicle.id]}
-//                         </div>
-//                       </div>
-//                     )}
-
-//                     {breakdown && (
-//                       <div className="mt-2 border-t pt-3">
-//                         <div className="text-sm font-semibold mb-2">
-//                           Price breakdown
-//                         </div>
-//                         <ul className="text-xs sm:text-sm space-y-1">
-//                           {Object.entries(breakdown).map(([key, value]) => (
-//                             <li
-//                               key={key}
-//                               className="flex justify-between"
-//                             >
-//                               <span className="capitalize">
-//                                 {key.replace(
-//                                   /([a-z])([A-Z])/g,
-//                                   "$1 $2"
-//                                 )}
-//                               </span>
-//                               <span className="font-medium">
-//                                 {typeof value === "number"
-//                                   ? value.toLocaleString("en-IN", {
-//                                       maximumFractionDigits: 2,
-//                                     })
-//                                   : String(value)}
-//                               </span>
-//                             </li>
-//                           ))}
-//                         </ul>
-//                       </div>
-//                     )}
-//                   </>
-//                 );
-//               })()}
-//             </div>
+//           <div className="space-y-3 lg:space-y-4">
+//             {/* Right-side summary slot if needed */}
 //           </div>
-//         )}
+//         </div>
 //       </div>
 //       <Footer />
 //     </div>
 //   );
 // }
-
 
 // function loadGoogleMapsScript() {
 //   return new Promise<void>((resolve, reject) => {
@@ -2259,7 +2416,10 @@
 // }
 
 
-//testing for responvie
+
+//testing 2
+
+
 
 
 "use client";
@@ -2268,7 +2428,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Tag, UserCheck, UserPlus, Lock } from "lucide-react";
+import {
+  ArrowLeft,
+  Tag,
+  UserCheck,
+  UserPlus,
+  Lock,
+  MapPin,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -2326,6 +2495,7 @@ export default function BookingPage() {
   const [isLocked, setIsLocked] = useState(false);
 
   const [infoVehicleId, setInfoVehicleId] = useState<string | null>(null);
+  const [showCouponInput, setShowCouponInput] = useState(false);
 
   const rentalPlans = [
     { id: "4hr", name: "4 Hr", duration: "40 Kms", hours: 4, kms: 40 },
@@ -2707,48 +2877,53 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div className="flex items-center mb-6">
+      <div className="max-w-6xl mx-auto px-3 py-3 sm:px-4 lg:px-6">
+        <div className="flex items-center mb-3">
           <Link
             href="/"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+            className="flex items-center text-gray-600 hover:text-blue-600 transition-colors text-sm"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            <span className="text-sm sm:text-base">Back to home</span>
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            <span>Back to home</span>
           </Link>
         </div>
 
-        <Card className="p-4 sm:p-6 mb-4">
+        {/* Locations */}
+        <Card className="p-3 mb-2">
           <CardContent className="p-0">
-            <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600 text-left">
+            <h3 className="text-base sm:text-lg font-semibold mb-2 text-blue-600 text-left">
               Pick your locations
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 text-left flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-green-600" />
                   Pickup location
                 </label>
                 <Input
+                  ref={pickupRef}
                   value={bookingData.pickup}
                   readOnly
-                  className="flex-1 bg-gray-50 cursor-not-allowed"
+                  className="flex-1 bg-gray-50 cursor-not-allowed h-9 text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 text-left flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-red-600" />
                   Drop location
                 </label>
                 <Input
+                  ref={dropRef}
                   value={bookingData.destination}
                   readOnly
-                  className="bg-gray-50 cursor-not-allowed"
+                  className="bg-gray-50 cursor-not-allowed h-9 text-sm"
                 />
               </div>
             </div>
 
-            <div className="flex justify-between items-center mt-3">
+            <div className="flex justify-between items-center mt-1.5">
               <button
                 type="button"
                 onClick={() => {
@@ -2761,13 +2936,13 @@ export default function BookingPage() {
             </div>
 
             {bookingData.serviceType === "outstation" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 text-left">
                     Pickup date & time *
                   </label>
                   <input
-                    className="border p-2 rounded w-full text-sm"
+                    className="border p-2 rounded w-full text-xs sm:text-sm"
                     type="date"
                     value={bookingData.pickupDate}
                     onChange={(e) =>
@@ -2775,7 +2950,7 @@ export default function BookingPage() {
                     }
                   />
                   <input
-                    className="border p-2 rounded w-full mt-1 text-sm"
+                    className="border p-2 rounded w-full mt-1 text-xs sm:text-sm"
                     type="time"
                     value={bookingData.pickupTime}
                     onChange={(e) =>
@@ -2785,11 +2960,11 @@ export default function BookingPage() {
                 </div>
                 {bookingData.tripType === "roundtrip" && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2 text-left">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 text-left">
                       Return date & time *
                     </label>
                     <input
-                      className="border p-2 rounded w-full text-sm"
+                      className="border p-2 rounded w-full text-xs sm:text-sm"
                       type="date"
                       value={bookingData.returnDate}
                       onChange={(e) =>
@@ -2797,7 +2972,7 @@ export default function BookingPage() {
                       }
                     />
                     <input
-                      className="border p-2 rounded w-full mt-1 text-sm"
+                      className="border p-2 rounded w-full mt-1 text-xs sm:text-sm"
                       type="time"
                       value={bookingData.returnTime}
                       onChange={(e) =>
@@ -2811,7 +2986,7 @@ export default function BookingPage() {
 
             {bookingData.serviceType === "outstation" &&
               bookingData.tripType === "roundtrip" && (
-                <div className="mt-2 text-sm text-blue-800 text-left">
+                <div className="mt-1.5 text-xs sm:text-sm text-blue-800 text-left">
                   Estimated total time{" "}
                   <b>
                     {formatTimeHours(lockedTripHours || totalTripHours)} (
@@ -2824,7 +2999,7 @@ export default function BookingPage() {
               !bookingData.destination ||
               !bookingData.pickupLat ||
               !bookingData.dropLat) && (
-              <div className="text-xs text-red-500 mt-2 text-left">
+              <div className="text-xs text-red-500 mt-1 text-left">
                 Please go back and select valid pickup and drop locations on the
                 booking screen.
               </div>
@@ -2832,22 +3007,21 @@ export default function BookingPage() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
-          <div className="lg:col-span-2 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:items-start">
+          <div className="lg:col-span-2 space-y-3">
             {!showBookingForm ? (
-              <div className="space-y-6">
-                <div className="mb-6">
-                  <div className="mt-4">
-                    <div className="inline-flex items-center bg-blue-100 rounded-full px-4 py-2">
-                      <span className="text-blue-700 font-medium text-sm sm:text-base">
-                        Service: {getServiceDisplayName()}
-                      </span>
-                    </div>
+              <div className="space-y-3">
+                {/* Service pill + distance */}
+                <div className="mb-1.5">
+                  <div className="inline-flex items-center bg-blue-100 rounded-full px-3 py-1">
+                    <span className="text-blue-700 font-medium text-sm">
+                      Service: {getServiceDisplayName()}
+                    </span>
                   </div>
                 </div>
 
-                <div className="text-sm text-gray-600">
-                  <div className="flex flex-wrap gap-2 items-center">
+                <div className="text-xs sm:text-sm text-gray-600">
+                  <div className="flex flex-wrap gap-1.5 items-center">
                     <span className="font-medium">Distance:</span>{" "}
                     <span>
                       {calculatingDistance
@@ -2867,13 +3041,13 @@ export default function BookingPage() {
                     </span>
                   </div>
                   {distanceError && (
-                    <div className="text-xs text-red-600 mt-1">
+                    <div className="text-xs text-red-600 mt-0.5">
                       {distanceError}
                     </div>
                   )}
                 </div>
 
-                <div className="text-xl sm:text-2xl font-bold text-blue-900">
+                <div className="text-xl font-bold text-blue-900">
                   {pricesLoading[bookingData.vehicleType]
                     ? "Calculating..."
                     : prices[bookingData.vehicleType]
@@ -2883,14 +3057,14 @@ export default function BookingPage() {
 
                 {bookingData.serviceType === "rental" &&
                   bookingData.rentalPlan && (
-                    <Card className="p-4 sm:p-6 mt-6">
+                    <Card className="p-3 mt-1">
                       <CardContent className="p-0">
-                        <h3 className="text-base sm:text-lg font-semibold mb-3 text-blue-600">
+                        <h3 className="text-sm sm:text-base font-semibold mb-2 text-blue-600">
                           Actual usage (for extra charges)
                         </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                               Actual hours used
                             </label>
                             <Input
@@ -2902,10 +3076,11 @@ export default function BookingPage() {
                               onChange={(e) =>
                                 setActualHours(Number(e.target.value))
                               }
+                              className="h-9 text-sm"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                               Actual distance (km)
                             </label>
                             <Input
@@ -2917,6 +3092,7 @@ export default function BookingPage() {
                               onChange={(e) =>
                                 setActualDistance(Number(e.target.value))
                               }
+                              className="h-9 text-sm"
                             />
                           </div>
                         </div>
@@ -2925,30 +3101,26 @@ export default function BookingPage() {
                   )}
 
                 {bookingData.serviceType === "rental" && (
-                  <Card className="p-4 sm:p-6">
+                  <Card className="p-3">
                     <CardContent className="p-0">
-                      <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
+                      <h3 className="text-sm sm:text-base font-semibold mb-2 text-blue-600">
                         Rental plans
                       </h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
                         {rentalPlans.map((plan) => (
                           <button
                             key={plan.id}
                             onClick={() =>
                               updateBookingData("rentalPlan", plan.id)
                             }
-                            className={`p-3 sm:p-4 rounded-lg border-2 text-center transition-all ${
+                            className={`p-2 rounded-lg border-2 text-center text-xs sm:text-sm transition-all ${
                               bookingData.rentalPlan === plan.id
                                 ? "border-blue-500 bg-blue-50 text-blue-700"
                                 : "border-gray-200 hover:border-blue-300"
                             }`}
                           >
-                            <div className="font-semibold text-base sm:text-lg">
-                              {plan.name}
-                            </div>
-                            <div className="text-xs sm:text-sm text-gray-600">
-                              {plan.duration}
-                            </div>
+                            <div className="font-semibold">{plan.name}</div>
+                            <div className="text-gray-600">{plan.duration}</div>
                           </button>
                         ))}
                       </div>
@@ -2956,54 +3128,62 @@ export default function BookingPage() {
                   </Card>
                 )}
 
-                <Card className="p-4 sm:p-6">
+                {/* Vehicle type – compact layout */}
+                <Card className="p-3">
                   <CardContent className="p-0">
-                    <h3 className="text-lg sm:text-xl font-semibold mb-4 text-blue-600">
+                    <h3 className="text-sm sm:text-base font-semibold mb-2 text-blue-600">
                       Vehicle type
                     </h3>
-                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {vehicleTypes.map((vehicle) => {
                         const breakdown = fareBreakdowns[vehicle.id];
 
+                        const onSelectVehicle = () => {
+                          setBookingData((prev) => ({
+                            ...prev,
+                            vehicleType: vehicle.id,
+                            fare: breakdown?.totalBeforeGST || 0,
+                            gstAmount: breakdown?.gstAmount || 0,
+                            totalFare: breakdown?.totalFareWithGST || 0,
+                          }));
+                        };
+
+                        const displayDistance = isLocked
+                          ? lockedDistanceKm
+                          : distanceKm;
+
                         return (
-                          <button
+                          <div
                             key={vehicle.id}
-                            onClick={() => {
-                              setBookingData((prev) => ({
-                                ...prev,
-                                vehicleType: vehicle.id,
-                                fare: breakdown?.totalBeforeGST || 0,
-                                gstAmount: breakdown?.gstAmount || 0,
-                                totalFare:
-                                  breakdown?.totalFareWithGST || 0,
-                              }));
+                            role="button"
+                            tabIndex={0}
+                            onClick={onSelectVehicle}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                onSelectVehicle();
+                              }
                             }}
-                            className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left ${
+                            className={`px-2.5 py-2 rounded-lg border-2 transition-all flex flex-col gap-1.5 text-left cursor-pointer ${
                               bookingData.vehicleType === vehicle.id
                                 ? "border-blue-500 bg-blue-50"
                                 : "border-gray-200 hover:border-blue-300"
                             }`}
                           >
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex items-center gap-3">
-                                <img
-                                  src={vehicle.image || "/placeholder.svg"}
-                                  alt={vehicle.name}
-                                  className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
-                                />
-                                <div>
-                                  <div className="font-semibold text-sm sm:text-base">
-                                    {vehicle.name}
-                                  </div>
-                                  <div className="text-xs sm:text-sm text-gray-600">
-                                    {vehicle.capacity}
-                                  </div>
-                                  <div className="text-xs text-gray-500 line-clamp-2">
-                                    {vehicle.features?.join(" • ")}
-                                  </div>
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={vehicle.image || "/placeholder.svg"}
+                                alt={vehicle.name}
+                                className="w-10 h-8 sm:w-12 sm:h-9 object-fill flex-shrink-0"
+                              />
+                              <div className="min-w-0">
+                                <div className="font-semibold text-sm">
+                                  {vehicle.name}
+                                </div>
+                                <div className="text-xs text-gray-600">
+                                  {vehicle.capacity}
                                 </div>
                               </div>
-
                               <button
                                 type="button"
                                 aria-label={`View details for ${vehicle.name}`}
@@ -3011,162 +3191,59 @@ export default function BookingPage() {
                                   e.stopPropagation();
                                   setInfoVehicleId(vehicle.id);
                                 }}
-                                className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
+                                className="ml-auto w-6 h-6 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-[10px] font-semibold hover:bg-gray-100 flex-shrink-0"
                               >
                                 i
                               </button>
                             </div>
 
-                            <div className="mt-3">
-                              {pricesLoading[vehicle.id] ? (
-                                <div className="text-sm text-gray-600">
-                                  Calculating...
-                                </div>
-                              ) : prices[vehicle.id] ? (
-                                <div className="text-base sm:text-lg font-semibold">
-                                  {prices[vehicle.id]}
-                                </div>
-                              ) : (
-                                <div className="text-base sm:text-lg font-semibold">
-                                  {new Intl.NumberFormat("en-IN", {
-                                    style: "currency",
-                                    currency: "INR",
-                                  }).format(vehicle.basePrice)}
-                                </div>
-                              )}
-                              <div className="text-xs text-gray-500 mt-1">
-                                {isLocked
-                                  ? `${lockedDistanceKm?.toFixed(2)} km`
-                                  : distanceKm
-                                  ? `${distanceKm.toFixed(2)} km`
-                                  : "Price based on route"}
-                              </div>
+                            {/* Mini   28 Km | 506 Rs style */}
+                            <div className="flex items-center justify-between text-xs sm:text-sm mt-0.5">
+                              <span className="font-medium">{vehicle.name}</span>
+                              <span className="font-semibold text-gray-900">
+                                {displayDistance
+                                  ? `${displayDistance.toFixed(0)} Km | ${
+                                      prices[vehicle.id]
+                                        ? prices[vehicle.id].replace("₹", "").trim()
+                                        : new Intl.NumberFormat("en-IN", {
+                                            maximumFractionDigits: 0,
+                                          }).format(vehicle.basePrice)
+                                    }`
+                                  : prices[vehicle.id] || ""}
+                              </span>
                             </div>
-                          </button>
+                          </div>
                         );
                       })}
-                    </div> */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-  {vehicleTypes.map((vehicle) => {
-    const breakdown = fareBreakdowns[vehicle.id];
-
-    const onSelectVehicle = () => {
-      setBookingData((prev) => ({
-        ...prev,
-        vehicleType: vehicle.id,
-        fare: breakdown?.totalBeforeGST || 0,
-        gstAmount: breakdown?.gstAmount || 0,
-        totalFare: breakdown?.totalFareWithGST || 0,
-      }));
-    };
-
-    return (
-      <div
-        key={vehicle.id}
-        role="button"
-        tabIndex={0}
-        onClick={onSelectVehicle}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onSelectVehicle();
-          }
-        }}
-        className={`p-4 rounded-lg border-2 transition-all flex flex-col justify-between text-left cursor-pointer ${
-          bookingData.vehicleType === vehicle.id
-            ? "border-blue-500 bg-blue-50"
-            : "border-gray-200 hover:border-blue-300"
-        }`}
-      >
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <img
-              src={vehicle.image || "/placeholder.svg"}
-              alt={vehicle.name}
-              className="w-12 h-10 sm:w-16 sm:h-12 object-fill"
-            />
-            <div>
-              <div className="font-semibold text-sm sm:text-base">
-                {vehicle.name}
-              </div>
-              <div className="text-xs sm:text-sm text-gray-600">
-                {vehicle.capacity}
-              </div>
-              <div className="text-xs text-gray-500 line-clamp-2">
-                {vehicle.features?.join(" • ")}
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            aria-label={`View details for ${vehicle.name}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setInfoVehicleId(vehicle.id);
-            }}
-            className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 text-xs font-semibold hover:bg-gray-100 flex-shrink-0"
-          >
-            i
-          </button>
-        </div>
-
-        <div className="mt-3">
-          {pricesLoading[vehicle.id] ? (
-            <div className="text-sm text-gray-600">Calculating...</div>
-          ) : prices[vehicle.id] ? (
-            <div className="text-base sm:text-lg font-semibold">
-              {prices[vehicle.id]}
-            </div>
-          ) : (
-            <div className="text-base sm:text-lg font-semibold">
-              {new Intl.NumberFormat("en-IN", {
-                style: "currency",
-                currency: "INR",
-              }).format(vehicle.basePrice)}
-            </div>
-          )}
-          <div className="text-xs text-gray-500 mt-1">
-            {isLocked
-              ? `${lockedDistanceKm?.toFixed(2)} km`
-              : distanceKm
-              ? `${distanceKm.toFixed(2)} km`
-              : "Price based on route"}
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div>
-
+                    </div>
                   </CardContent>
                 </Card>
 
                 <Button
                   onClick={handleBookNow}
                   disabled={isBookNowDisabled}
-                  className="w-full bg-blue-500 text-white hover:bg-blue-600 py-4 text-base sm:text-lg font-semibold"
+                  className="w-full bg-blue-500 text-white hover:bg-blue-600 py-2.5 text-base font-semibold"
                 >
                   Book now
                 </Button>
               </div>
             ) : (
-              <div ref={bookingFormRef} className="space-y-6">
+              <div ref={bookingFormRef} className="space-y-3">
                 {inlineMessage && (
-                  <div className="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                  <div className="mb-2 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-xs sm:text-sm text-green-800">
                     {inlineMessage}
                   </div>
                 )}
 
-                <div className="mb-6">
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                <div className="mb-2">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                     Complete your {getServiceDisplayName()} booking
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Fill in the details to confirm your booking.
                   </p>
                   {isLocked && (
-                    <div className="mt-4 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-green-800">
+                    <div className="mt-2 inline-flex items-center bg-green-50 border border-green-200 rounded-lg px-3 py-1 text-xs sm:text-sm text-green-800">
                       <Lock className="w-4 h-4 mr-2" />
                       <span>
                         Your fare is locked at {prices[bookingData.vehicleType]}{" "}
@@ -3176,54 +3253,52 @@ export default function BookingPage() {
                   )}
                 </div>
 
-                <Card className="p-4 sm:p-6">
+                {/* Who booking for – buttons side by side */}
+                <Card className="p-3">
                   <CardContent className="p-0">
-                    <h3 className="text-base sm:text-lg font-semibold mb-4">
+                    <h3 className="text-sm sm:text-base font-semibold mb-2">
                       Who are you booking for?
                     </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex gap-2">
                       <button
                         onClick={() =>
                           updateBookingData("bookingFor", "self")
                         }
-                        className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+                        className={`flex-1 px-2.5 py-2 rounded-lg border-2 flex items-center justify-center gap-1.5 text-xs sm:text-sm ${
                           bookingData.bookingFor === "self"
                             ? "border-blue-500 bg-blue-50 text-blue-700"
                             : "border-gray-200 hover:border-blue-300"
                         }`}
                       >
-                        <UserCheck className="w-5 h-5" />
-                        <span className="text-sm sm:text-base">
-                          For myself
-                        </span>
+                        <UserCheck className="w-4 h-4" />
+                        <span>For myself</span>
                       </button>
                       <button
                         onClick={() =>
                           updateBookingData("bookingFor", "other")
                         }
-                        className={`p-4 rounded-lg border-2 flex items-center justify-center space-x-2 ${
+                        className={`flex-1 px-2.5 py-2 rounded-lg border-2 flex items-center justify-center gap-1.5 text-xs sm:text-sm ${
                           bookingData.bookingFor === "other"
                             ? "border-blue-500 bg-blue-50 text-blue-700"
                             : "border-gray-200 hover:border-blue-300"
                         }`}
                       >
-                        <UserPlus className="w-5 h-5" />
-                        <span className="text-sm sm:text-base">
-                          For someone else
-                        </span>
+                        <UserPlus className="w-4 h-4" />
+                        <span>Other</span>
                       </button>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="p-4 sm:p-6">
-                  <CardContent className="p-0 space-y-4">
-                    <h3 className="text-base sm:text-lg font-semibold">
+                {/* Your details – phone logic 10 digit, no leading 0 */}
+                <Card className="p-3">
+                  <CardContent className="p-0 space-y-2.5">
+                    <h3 className="text-sm sm:text-base font-semibold">
                       Your details
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                           Full name *
                         </label>
                         <Input
@@ -3234,25 +3309,34 @@ export default function BookingPage() {
                             updateBookingData("customerName", e.target.value)
                           }
                           required
+                          className="h-9 text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                           Phone number *
                         </label>
                         <Input
                           type="tel"
-                          placeholder="Enter 10-digit mobile number"
+                          inputMode="numeric"
+                          pattern="[6-9][0-9]{9}"
+                          placeholder="10-digit mobile number"
                           value={bookingData.customerPhone}
-                          onChange={(e) =>
-                            updateBookingData("customerPhone", e.target.value)
-                          }
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "");
+                            // keep only 10 digits, no leading 0 enforced by regex isValidPhone
+                            if (value.length <= 10) {
+                              updateBookingData("customerPhone", value);
+                            }
+                          }}
+                          maxLength={10}
                           required
+                          className="h-9 text-sm"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                         Email address
                       </label>
                       <Input
@@ -3262,20 +3346,21 @@ export default function BookingPage() {
                         onChange={(e) =>
                           updateBookingData("customerEmail", e.target.value)
                         }
+                        className="h-9 text-sm"
                       />
                     </div>
                   </CardContent>
                 </Card>
 
                 {bookingData.bookingFor === "other" && (
-                  <Card className="p-4 sm:p-6">
-                    <CardContent className="p-0 space-y-4">
-                      <h3 className="text-base sm:text-lg font-semibold">
+                  <Card className="p-3">
+                    <CardContent className="p-0 space-y-2.5">
+                      <h3 className="text-sm sm:text-base font-semibold">
                         Passenger details
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                             Passenger name *
                           </label>
                           <Input
@@ -3289,23 +3374,28 @@ export default function BookingPage() {
                               )
                             }
                             required
+                            className="h-9 text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                             Passenger phone *
                           </label>
                           <Input
                             type="tel"
-                            placeholder="Enter 10-digit mobile number"
+                            inputMode="numeric"
+                            pattern="[6-9][0-9]{9}"
+                            placeholder="10-digit mobile number"
                             value={bookingData.otherPersonPhone}
-                            onChange={(e) =>
-                              updateBookingData(
-                                "otherPersonPhone",
-                                e.target.value
-                              )
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, "");
+                              if (value.length <= 10) {
+                                updateBookingData("otherPersonPhone", value);
+                              }
+                            }}
+                            maxLength={10}
                             required
+                            className="h-9 text-sm"
                           />
                         </div>
                       </div>
@@ -3313,104 +3403,61 @@ export default function BookingPage() {
                   </Card>
                 )}
 
-                <Card className="p-4 sm:p-6">
-                  <CardContent className="p-0 space-y-4">
-                    <h3 className="text-base sm:text-lg font-semibold">
-                      Additional details
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Number of passengers
-                        </label>
-                        <Input
-                          type="number"
-                          min={1}
-                          max={7}
-                          value={bookingData.passengers}
-                          onChange={(e) =>
-                            updateBookingData(
-                              "passengers",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Payment method
-                        </label>
-                        <select
-                          className="border rounded px-3 py-2 w-full text-sm"
-                          value={bookingData.paymentMethod}
-                          onChange={(e) =>
-                            updateBookingData(
-                              "paymentMethod",
-                              e.target.value
-                            )
-                          }
-                        >
-                          <option value="online">Online payment</option>
-                          <option value="cash">Cash to driver</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Special instructions for driver
-                      </label>
-                      <textarea
-                        className="border rounded px-3 py-2 w-full text-sm min-h-[80px]"
-                        placeholder="Any special pickup instructions or notes"
-                        value={bookingData.notes}
-                        onChange={(e) =>
-                          updateBookingData("notes", e.target.value)
-                        }
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="p-4 sm:p-6">
+                {/* Coupon – collapsed with arrow */}
+                <Card className="p-3">
                   <CardContent className="p-0">
-                    <h3 className="text-base sm:text-lg font-semibold mb-4">
-                      Apply coupon code
-                    </h3>
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                      <Input
-                        type="text"
-                        placeholder="Enter coupon code"
-                        value={bookingData.couponCode}
-                        onChange={(e) =>
-                          updateBookingData("couponCode", e.target.value)
-                        }
-                        className="flex-1"
-                      />
-                      <Button
-                        onClick={applyCoupon}
-                        variant="outline"
-                        className="bg-transparent w-full sm:w-auto"
-                      >
-                        <Tag className="w-4 h-4 mr-2" /> Apply
-                      </Button>
-                    </div>
-                    <div className="mt-2 text-xs sm:text-sm text-gray-600">
-                      Try: FIRST10, SAVE20, WELCOME15
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowCouponInput((p) => !p)}
+                      className="w-full flex items-center justify-between text-xs sm:text-sm font-semibold mb-1"
+                    >
+                      <span>Apply coupon code</span>
+                      {showCouponInput ? (
+                        <ChevronUp className="w-4 h-4" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
+                    </button>
+                    {showCouponInput && (
+                      <>
+                        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mt-1">
+                          <Input
+                            type="text"
+                            placeholder="Enter coupon code"
+                            value={bookingData.couponCode}
+                            onChange={(e) =>
+                              updateBookingData("couponCode", e.target.value)
+                            }
+                            className="flex-1 h-9 text-sm"
+                          />
+                          <Button
+                            onClick={applyCoupon}
+                            variant="outline"
+                            className="bg-transparent w-full sm:w-auto h-9 text-sm"
+                          >
+                            <Tag className="w-4 h-4 mr-1" />
+                            Apply
+                          </Button>
+                        </div>
+                        <div className="mt-1 text-[11px] sm:text-xs text-gray-600">
+                          Try: FIRST10, SAVE20, WELCOME15
+                        </div>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
 
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                   <Button
                     onClick={() => setShowBookingForm(false)}
                     variant="outline"
-                    className="flex-1 bg-transparent"
+                    className="flex-1 bg-transparent h-10 text-sm"
                   >
                     Back
                   </Button>
                   <Button
                     onClick={handleConfirmBooking}
-                    className="flex-1 bg-blue-500 text-white hover:bg-blue-600"
+                    className="flex-1 bg-blue-500 text-white hover:bg-blue-600 h-10 text-sm sm:text-base"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Confirming..." : "Confirm booking"}
@@ -3421,7 +3468,7 @@ export default function BookingPage() {
 
             {infoVehicleId && (
               <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
-                <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-5 max-h-[80vh] overflow-y-auto">
+                <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-4 max-h-[80vh] overflow-y-auto">
                   {(() => {
                     const vehicle = allVehicleTypes.find(
                       (v) => v.id === infoVehicleId
@@ -3434,9 +3481,9 @@ export default function BookingPage() {
 
                     return (
                       <>
-                        <div className="flex items-start justify-between mb-3 gap-3">
+                        <div className="flex items-start justify-between mb-2 gap-3">
                           <div className="min-w-0">
-                            <h3 className="text-base sm:text-lg font-semibold truncate">
+                            <h3 className="text-sm sm:text-base font-semibold truncate">
                               {vehicle.name}
                             </h3>
                             <p className="text-xs sm:text-sm text-gray-600 break-words">
@@ -3447,14 +3494,14 @@ export default function BookingPage() {
                           <button
                             type="button"
                             onClick={() => setInfoVehicleId(null)}
-                            className="text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
+                            className="text-xs sm:text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
                           >
                             Close
                           </button>
                         </div>
 
                         {prices[vehicle.id] && (
-                          <div className="mb-3">
+                          <div className="mb-2">
                             <div className="text-xs text-gray-500">
                               Estimated fare
                             </div>
@@ -3465,11 +3512,11 @@ export default function BookingPage() {
                         )}
 
                         {breakdown && (
-                          <div className="mt-2 border-t pt-3">
-                            <div className="text-sm font-semibold mb-2">
+                          <div className="mt-2 border-t pt-2">
+                            <div className="text-xs sm:text-sm font-semibold mb-1.5">
                               Price breakdown
                             </div>
-                            <ul className="text-xs sm:text-sm space-y-2">
+                            <ul className="text-xs sm:text-sm space-y-1">
                               {Object.entries(breakdown).map(
                                 ([key, value]) => (
                                   <li
@@ -3503,7 +3550,7 @@ export default function BookingPage() {
             )}
           </div>
 
-          <div className="space-y-4 lg:space-y-6">
+          <div className="space-y-2 lg:space-y-3">
             {/* Right-side summary slot if needed */}
           </div>
         </div>
