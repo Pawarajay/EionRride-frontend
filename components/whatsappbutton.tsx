@@ -29,14 +29,14 @@ export default function WhatsAppButton() {
     // This container now uses Flexbox to stack the buttons vertically
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-4">
       {/* Phone Call Button */}
-      <Button
+      {/* <Button
         onClick={handlePhoneClick}
         aria-label="Call us"
         className="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
         size="lg"
       >
         <Phone className="h-7 w-7" />
-      </Button>
+      </Button> */}
 
       {/* WhatsApp Button */}
       <Button
