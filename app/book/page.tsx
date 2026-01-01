@@ -1156,6 +1156,7 @@
 // }
 
 //testing
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -2194,89 +2195,94 @@ export default function BookingPage() {
             )}
 
             {/* UPDATED: Info modal with reduced white space */}
+                   {/* UPDATED: Info modal with minimal white space */}
             {infoVehicleId && (
-              <div className="fixed inset-0 z-40 flex items-end md:items-center justify-center bg-black/50 px-4">
-                <div className="w-full max-w-md bg-white rounded-t-2xl md:rounded-2xl shadow-lg p-4 max-h-[80vh] overflow-y-auto">
-                  {(() => {
-                    const vehicle = allVehicleTypes.find(
-                      (v) => v.id === infoVehicleId
-                    );
-                    const breakdown = vehicle
-                      ? fareBreakdowns[vehicle.id]
-                      : null;
+              <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 px-4">
+                <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-y-auto max-h-[90vh]">
+                  <div className="p-4"> {/* Reduced padding here */}
+                    {(() => {
+                      const vehicle = allVehicleTypes.find(
+                        (v) => v.id === infoVehicleId
+                      );
+                      const breakdown = vehicle
+                        ? fareBreakdowns[vehicle.id]
+                        : null;
 
-                    if (!vehicle) return null;
+                      if (!vehicle) return null;
 
-                    return (
-                      <>
-                        <div className="flex items-start justify-between mb-3 gap-3">
-                          <div className="min-w-0">
-                            <h3 className="text-base font-semibold truncate">
-                              {vehicle.name}
-                            </h3>
-                            <p className="text-xs text-gray-600 break-words">
-                              {vehicle.capacity} •{" "}
-                              {vehicle.features?.join(" • ")}
-                            </p>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setInfoVehicleId(null)}
-                            className="text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
-                          >
-                            Close
-                          </button>
-                        </div>
-
-                        {prices[vehicle.id] && (
-                          <div className="mb-3">
-                            <div className="text-xs text-gray-500">
-                              Estimated fare
+                      return (
+                        <>
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <h3 className="text-base font-semibold truncate">
+                                {vehicle.name}
+                              </h3>
+                              <p className="text-xs text-gray-600 break-words">
+                                {vehicle.capacity} •{" "}
+                                {vehicle.features?.join(" • ")}
+                              </p>
                             </div>
-                            <div className="text-xl font-semibold">
-                              {prices[vehicle.id]}
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setInfoVehicleId(null)}
+                              className="text-sm text-gray-500 hover:text-gray-800 flex-shrink-0"
+                            >
+                              Close
+                            </button>
                           </div>
-                        )}
 
-                        {breakdown && (
-                          <div className="border-t pt-3">
-                            <div className="text-sm font-semibold mb-2">
-                              Price breakdown
+                          {prices[vehicle.id] && (
+                            <div className="mt-4"> {/* Tightened spacing */}
+                              <div className="text-xs text-gray-500">
+                                Estimated fare
+                              </div>
+                              <div className="text-xl font-semibold">
+                                {prices[vehicle.id]}
+                              </div>
                             </div>
-                            <ul className="text-sm space-y-1.5">
-                              {Object.entries(breakdown).map(
-                                ([key, value]) => (
-                                  <li
-                                    key={key}
-                                    className="flex items-center justify-between gap-2"
-                                  >
-                                    <span className="capitalize text-gray-700 break-words">
-                                      {key.replace(
-                                        /([a-z])([A-Z])/g,
-                                        "$1 $2"
-                                      )}
-                                    </span>
-                                    <span className="font-medium text-gray-900 break-words text-right">
-                                      {typeof value === "number"
-                                        ? value.toLocaleString("en-IN", {
-                                            maximumFractionDigits: 2,
-                                          })
-                                        : String(value)}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        )}
-                      </>
-                    );
-                  })()}
+                          )}
+
+                          {breakdown && (
+                            <div className="mt-4 border-t pt-4"> {/* Reduced top margin */}
+                              <div className="text-sm font-semibold mb-3">
+                                Price breakdown
+                              </div>
+                              <ul className="text-sm space-y-2">
+                                {Object.entries(breakdown).map(
+                                  ([key, value]) => (
+                                    <li
+                                      key={key}
+                                      className="flex items-center justify-between gap-2"
+                                    >
+                                      <span className="capitalize text-gray-700 break-words">
+                                        {key.replace(
+                                          /([a-z])([A-Z])/g,
+                                          "$1 $2"
+                                        )}
+                                      </span>
+                                      <span className="font-medium text-gray-900 break-words text-right">
+                                        {typeof value === "number"
+                                          ? value.toLocaleString("en-IN", {
+                                              maximumFractionDigits: 2,
+                                            })
+                                          : String(value)}
+                                      </span>
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
                 </div>
               </div>
             )}
           </div>
+
+          
 
           <div className="space-y-2 lg:space-y-3">
             {/* Right-side summary slot if needed */}
